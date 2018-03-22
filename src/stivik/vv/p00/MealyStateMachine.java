@@ -1,8 +1,11 @@
 package stivik.vv.p00;
 
+import com.google.gson.Gson;
+import netscape.javascript.JSObject;
 import stivik.vv.p00.util.TransitionFunction;
 import stivik.vv.p00.util.TransitionMap;
 
+import java.lang.reflect.GenericSignatureFormatError;
 import java.util.Scanner;
 
 public class MealyStateMachine {
@@ -31,7 +34,7 @@ public class MealyStateMachine {
 
             int input = m_InputReader.nextInt();
 
-            builder.append(input).append(", ").append("OUTPUT: ").append(trigger(m_CurrentState, m_Symbols[input])).append(")");
+            builder.append(input).append(", ").append("OUTPUT: ").append(trigger(m_CurrentState, m_Symbols[input]).m_Name).append(")");
             m_CurrentState = next(m_CurrentState, m_Symbols[input]);
             if (m_CurrentState.m_End) {
                 break;
@@ -53,9 +56,10 @@ public class MealyStateMachine {
     }
 
     public static void main(String[] args) {
-        State[] states = { new State("S_i"), new State("S_0"), new State("S_1", true) };
+        State[] states = { new State("S_i"), new State("S_0"), new State("S_1"), new State("S_2", true) };
         Symbol[] symbols = { new Symbol("0"), new Symbol("1") };
 
+        /**
         MealyStateMachine machine = new MealyStateMachine(states, symbols);
         machine.m_StateTransitionMap.put(states[0], symbols[0], states[1]);
         machine.m_StateTransitionMap.put(states[0], symbols[1], states[2]);
@@ -64,6 +68,8 @@ public class MealyStateMachine {
         machine.m_StateTransitionMap.put(states[2], symbols[0], states[1]);
         machine.m_StateTransitionMap.put(states[2], symbols[1], states[2]);
 
+        machine.m_StateTransitionMap.put(states[2], symbols[1], states[3]);
+
         machine.m_SymbolTransitionMap.put(states[0], symbols[0], (symbol, state) -> symbols[0]);
         machine.m_SymbolTransitionMap.put(states[0], symbols[1], (symbol, state) -> symbols[0]);
         machine.m_SymbolTransitionMap.put(states[1], symbols[0], (symbol, state) -> symbols[0]);
@@ -71,5 +77,9 @@ public class MealyStateMachine {
         machine.m_SymbolTransitionMap.put(states[2], symbols[0], (symbol, state) -> symbols[1]);
         machine.m_SymbolTransitionMap.put(states[2], symbols[1], (symbol, state) -> symbols[0]);
         machine.run();
+         **/
+
+        Gson gson = new Gson();
+        System.out.println(gson.toJson(new MealyStateMachineFactory(states, symbols)));
     }
 }
