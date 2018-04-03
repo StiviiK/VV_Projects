@@ -59,7 +59,6 @@ public class MealyStateMachine {
         State[] states = { new State("S_i"), new State("S_0"), new State("S_1"), new State("S_2", true) };
         Symbol[] symbols = { new Symbol("0"), new Symbol("1") };
 
-        /**
         MealyStateMachine machine = new MealyStateMachine(states, symbols);
         machine.m_StateTransitionMap.put(states[0], symbols[0], states[1]);
         machine.m_StateTransitionMap.put(states[0], symbols[1], states[2]);
@@ -77,9 +76,10 @@ public class MealyStateMachine {
         machine.m_SymbolTransitionMap.put(states[2], symbols[0], (symbol, state) -> symbols[1]);
         machine.m_SymbolTransitionMap.put(states[2], symbols[1], (symbol, state) -> symbols[0]);
         machine.run();
-         **/
 
+        /*
         Gson gson = new Gson();
         System.out.println(gson.toJson(new MealyStateMachineFactory(states, symbols)));
+        */
     }
 }
