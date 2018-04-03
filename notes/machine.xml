@@ -1,0 +1,33 @@
+<machine>
+    <symbols>
+        <symbol read="0" output="SYMBOL 0"/>
+        <symbol read="1" output="SYMBOL 1"/>
+        <symbol read="2" output="SYMBOL 2"/>
+    </symbols>
+    <states>
+        <state name="S_i">
+            <transition input_symbol="0" target_state="1" output_symbol="0"/>
+            <transition input_symbol="1" target_state="2" output_symbol="1"/>
+        </state>
+        <state name="S_0">
+            <transition input_symbol="0" target_state="1" output_symbol="0"/>
+            <transition input_symbol="1" target_state="2" output_symbol="1"/>
+        </state>
+        <state name="S_1">
+            <transition input_symbol="0" target_state="1" output_symbol="0"/>
+            <transition input_symbol="1" target_state="2" output_symbol="1"/>
+            <transition input_symbol="2" target_state="3" output_symbol="2"/>
+        </state>
+        <state name="S_3" final="true"/>
+    </states>
+</machine>
+<!--
+    Symbol:
+        READ: Expected input
+        OUTPUT: Printed output of symbol
+
+    State:
+        INPUT_SYMBOL: Symbol to start transition
+        TARGET_STATE: Resulting state of transition
+        OUTPUT_SYMBOL: Printed symbol while transition
+-->

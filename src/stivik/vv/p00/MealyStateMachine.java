@@ -56,8 +56,8 @@ public class MealyStateMachine {
     }
 
     public static void main(String[] args) {
-        State[] states = { new State("S_i"), new State("S_0"), new State("S_1"), new State("S_2", true) };
-        Symbol[] symbols = { new Symbol("0"), new Symbol("1") };
+        State[] states = { new State("S_i"), new State("S_0"), new State("S_1"), new State("S_2"), new State("S_3", true) };
+        Symbol[] symbols = { new Symbol("0"), new Symbol("1"), new Symbol("2") };
 
         MealyStateMachine machine = new MealyStateMachine(states, symbols);
         machine.m_StateTransitionMap.put(states[0], symbols[0], states[1]);
@@ -67,7 +67,7 @@ public class MealyStateMachine {
         machine.m_StateTransitionMap.put(states[2], symbols[0], states[1]);
         machine.m_StateTransitionMap.put(states[2], symbols[1], states[2]);
 
-        machine.m_StateTransitionMap.put(states[2], symbols[1], states[3]);
+        machine.m_StateTransitionMap.put(states[2], symbols[2], states[4]);
 
         machine.m_SymbolTransitionMap.put(states[0], symbols[0], (symbol, state) -> symbols[0]);
         machine.m_SymbolTransitionMap.put(states[0], symbols[1], (symbol, state) -> symbols[0]);
@@ -75,6 +75,7 @@ public class MealyStateMachine {
         machine.m_SymbolTransitionMap.put(states[1], symbols[1], (symbol, state) -> symbols[1]);
         machine.m_SymbolTransitionMap.put(states[2], symbols[0], (symbol, state) -> symbols[1]);
         machine.m_SymbolTransitionMap.put(states[2], symbols[1], (symbol, state) -> symbols[0]);
+        machine.m_SymbolTransitionMap.put(states[2], symbols[2], (symbol, state) -> symbols[0]);
         machine.run();
 
         /*
