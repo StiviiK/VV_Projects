@@ -3,6 +3,10 @@
         <symbol read="0" output="SYMBOL 0"/>
         <symbol read="1" output="SYMBOL 1"/>
         <symbol read="2" output="SYMBOL 2"/>
+
+        <!-- symbol read="0" output="SYMBOL 0">
+            <transition current_state="0" target_state="1"/>
+        </symbol -->
     </symbols>
     <states>
         <state name="S_i">
