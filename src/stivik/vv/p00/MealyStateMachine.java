@@ -2,9 +2,12 @@ package stivik.vv.p00;
 
 import com.google.gson.Gson;
 import netscape.javascript.JSObject;
+import stivik.vv.p00.parser.JsonMealyParser;
+import stivik.vv.p00.parser.MealyParser;
 import stivik.vv.p00.util.TransitionFunction;
 import stivik.vv.p00.util.TransitionMap;
 
+import java.io.File;
 import java.lang.reflect.GenericSignatureFormatError;
 import java.util.Scanner;
 
@@ -78,9 +81,8 @@ public class MealyStateMachine {
         machine.m_SymbolTransitionMap.put(states[2], symbols[2], (symbol, state) -> symbols[0]);
         machine.run();
 
-        /*
-        Gson gson = new Gson();
-        System.out.println(gson.toJson(new MealyStateMachineFactory(states, symbols)));
-        */
+
+        MealyParser parser = new JsonMealyParser();
+        parser.parse(new File(MealyStateMachine.class.getResource("bla.json").getFile()));
     }
 }
