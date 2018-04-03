@@ -1,12 +1,11 @@
 package stivik.vv.p00;
 
+import java.io.File;
+
 public class MealyStateMachineFactory {
 
-    public MealyStateMachineFactory(MealyStateMachineFile construct) {
-
+    public static MealyStateMachine build(MealyStateMachineFile construct) {
+        return new MealyStateMachine(null, null);
     }
 
-    public MealyStateMachine build() {
-        return new MealyStateMachine(null, null);
-    };
 }

@@ -83,6 +83,7 @@ public class MealyStateMachine {
 
 
         MealyParser parser = new JsonMealyParser();
-        parser.parse(new File(MealyStateMachine.class.getResource("bla.json").getFile()));
+        MealyStateMachineFile result = parser.parse(new File(MealyStateMachine.class.getResource("bla.json").getFile()));
+        MealyStateMachineFactory.build(result).run();
     }
 }
