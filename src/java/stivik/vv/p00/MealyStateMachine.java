@@ -1,6 +1,7 @@
 package stivik.vv.p00;
 
-import stivik.vv.p00.parser.XMLMealyParser;
+import stivik.vv.p00.models.State;
+import stivik.vv.p00.models.Symbol;
 import stivik.vv.p00.util.TransitionFunction;
 import stivik.vv.p00.util.TransitionMap;
 
@@ -27,19 +28,24 @@ public class MealyStateMachine {
         m_CurrentState = m_States[0];
     }
 
+    public void addTransition(Transition transition) {
+        m_StateTransitionMap.put(transition.getFromState(), transition.getInputSymbol(), transition.getToState());
+        m_SymbolTransitionMap.put(transition.getFromState(), transition.getInputSymbol(), ((state, symbol) -> transition.getOutputSymbol()));
+    }
+
     public void run() {
         StringBuilder builder = new StringBuilder();
         builder.append("START");
         while(true) {
-            builder.append(" -> (").append("STATE: ").append(m_CurrentState.m_Name).append(", INPUT: ");
+            builder.append(" -> (").append("STATE: ").append(m_CurrentState.name).append(", INPUT: ");
 
             System.out.print(builder);
 
             int input = m_InputReader.nextInt();
 
-            builder.append(input).append(", ").append("OUTPUT: ").append(trigger(m_CurrentState, m_Symbols[input]).m_Name).append(")");
+            builder.append(input).append(", ").append("OUTPUT: ").append(trigger(m_CurrentState, m_Symbols[input]).getName()).append(")");
             m_CurrentState = next(m_CurrentState, m_Symbols[input]);
-            if (m_CurrentState.m_End) {
+            if (m_CurrentState.isEnd) {
                 break;
             }
         }
@@ -59,53 +65,26 @@ public class MealyStateMachine {
     }
 
     public static void main(String[] args) throws JAXBException {
+        File file = new File("src/java/stivik/vv/p00/resources/machine.xml");
+        JAXBContext context = JAXBContext.newInstance(MealyStateMachineFile.class);
         /*
-        State[] states = { new State("S_i"), new State("S_0"), new State("S_1"), new State("S_2"), new State("S_3", true) };
-        Symbol[] symbols = { new Symbol("0"), new Symbol("1"), new Symbol("2") };
-
-        MealyStateMachine machine = new MealyStateMachine(states, symbols);
-        machine.m_StateTransitionMap.put(states[0], symbols[0], states[1]);
-        machine.m_StateTransitionMap.put(states[0], symbols[1], states[2]);
-        machine.m_StateTransitionMap.put(states[1], symbols[0], states[1]);
-        machine.m_StateTransitionMap.put(states[1], symbols[1], states[2]);
-        machine.m_StateTransitionMap.put(states[2], symbols[0], states[1]);
-        machine.m_StateTransitionMap.put(states[2], symbols[1], states[2]);
-
-        machine.m_StateTransitionMap.put(states[2], symbols[2], states[4]);
-
-        machine.m_SymbolTransitionMap.put(states[0], symbols[0], (symbol, state) -> symbols[0]);
-        machine.m_SymbolTransitionMap.put(states[0], symbols[1], (symbol, state) -> symbols[0]);
-        machine.m_SymbolTransitionMap.put(states[1], symbols[0], (symbol, state) -> symbols[0]);
-        machine.m_SymbolTransitionMap.put(states[1], symbols[1], (symbol, state) -> symbols[1]);
-        machine.m_SymbolTransitionMap.put(states[2], symbols[0], (symbol, state) -> symbols[1]);
-        machine.m_SymbolTransitionMap.put(states[2], symbols[1], (symbol, state) -> symbols[0]);
-        machine.m_SymbolTransitionMap.put(states[2], symbols[2], (symbol, state) -> symbols[0]);
-        machine.run();
-        */
-
-        /*
-        File file = new File("machine.xml");
-        XMLMealyParser parser = new XMLMealyParser();
-        MealyStateMachineFile machineFile = parser.parse(file);
-        MealyStateMachine machine = MealyStateMachineFactory.build(machineFile);
-        machine.run();
-        */
-
         MealyStateMachineFile machineFile = new MealyStateMachineFile();
         JAXBContext context = JAXBContext.newInstance(MealyStateMachineFile.class);
         Marshaller m = context.createMarshaller();
         m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
         m.marshal(machineFile, System.out);
-        m.marshal(machineFile, new File("machine.xml"));
+        m.marshal(machineFile, file);
+        */
 
         Unmarshaller u = context.createUnmarshaller();
-        MealyStateMachineFile mealyStateMachineFile = (MealyStateMachineFile) u.unmarshal(new File("machine.xml"));
-        System.out.println(mealyStateMachineFile.states[0] == mealyStateMachineFile.transitions[0].fromState);
+        MealyStateMachineFile machineFile = (MealyStateMachineFile) u.unmarshal(file);
+        MealyStateMachine machine = MealyStateMachineFactory.build(machineFile);
+        machine.run();
     }
 }
 
 /**
-    java -jar mealy.jar -machine=./file.json -format=json -input=./input.txt -outputa   =./output.txt
+    java -jar mealy.jar -machine=./file.json -format=json -input=./input.txt -output =./output.txt
 
     input.txt:
     "0,0,0,0,1,1,1,1,1,1,0,1,0,1,1,1,1,1,1,0,0,0,0,0,0,0,0,1,1,1,1,2"

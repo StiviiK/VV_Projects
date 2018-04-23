@@ -1,7 +1,7 @@
 package stivik.vv.p00.util;
 
-import stivik.vv.p00.State;
-import stivik.vv.p00.Symbol;
+import stivik.vv.p00.models.State;
+import stivik.vv.p00.models.Symbol;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -1,5 +1,8 @@
 package stivik.vv.p00;
 
+import stivik.vv.p00.models.State;
+import stivik.vv.p00.models.Symbol;
+
 import javax.xml.bind.annotation.*;
 
 @XmlRootElement(name = "MealyStateMachine")
@@ -7,19 +10,19 @@ public class MealyStateMachineFile {
 
     @XmlElementWrapper(name = "states")
     @XmlElement(name = "state")
-    public State[] states = { new State("S_i"), new State("S_0"), new State("S_1"), new State("S_2"), new State("S_3", true) };
+    private State[] states;
 
     @XmlElementWrapper(name = "symbols")
     @XmlElement(name = "symbol")
-    private  Symbol[] symbols = { new Symbol("0"), new Symbol("1"), new Symbol("2") };
+    private  Symbol[] symbols;
 
     @XmlElementWrapper(name = "transitions")
     @XmlElement(name = "transition")
-    public Transition[] transitions = {
-            new Transition(states[0], symbols[0], states[1], symbols[0])
-    };
+    private Transition[] transitions;
 
-    public MealyStateMachineFile() {}
+    private MealyStateMachineFile() {
+
+    }
 
     public Symbol[] getSymbols() {
         return symbols;
@@ -27,5 +30,9 @@ public class MealyStateMachineFile {
 
     public State[] getStates() {
         return states;
+    }
+
+    public Transition[] getTransitions() {
+        return transitions;
     }
 }
