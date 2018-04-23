@@ -12,9 +12,7 @@ import java.io.File;
 import java.io.IOException;
 
 public class XMLMealyParser implements MealyParser {
-
-    @Override
-    public MealyStateMachineFile parse(File constructFile) throws JAXBException {
+    public static MealyStateMachineFile parse(File constructFile) throws JAXBException {
         JAXBContext context = JAXBContext.newInstance(MealyStateMachineFile.class);
         Unmarshaller unmarshaller = context.createUnmarshaller();
 

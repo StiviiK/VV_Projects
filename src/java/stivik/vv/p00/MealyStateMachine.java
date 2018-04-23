@@ -2,6 +2,7 @@ package stivik.vv.p00;
 
 import stivik.vv.p00.models.State;
 import stivik.vv.p00.models.Symbol;
+import stivik.vv.p00.parser.XMLMealyParser;
 import stivik.vv.p00.util.TransitionFunction;
 import stivik.vv.p00.util.TransitionMap;
 
@@ -76,9 +77,7 @@ public class MealyStateMachine {
         m.marshal(machineFile, file);
         */
 
-        Unmarshaller u = context.createUnmarshaller();
-        MealyStateMachineFile machineFile = (MealyStateMachineFile) u.unmarshal(file);
-        MealyStateMachine machine = MealyStateMachineFactory.build(machineFile);
+        MealyStateMachine machine = MealyStateMachineFactory.build(XMLMealyParser.parse(file));
         machine.run();
     }
 }

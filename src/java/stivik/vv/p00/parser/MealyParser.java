@@ -10,5 +10,7 @@ import java.io.File;
 import java.io.IOException;
 
 public interface MealyParser {
-    MealyStateMachineFile parse(File constructFile) throws Exception;
+    static MealyStateMachineFile parse(File constructFile) throws Exception {
+        throw new NotImplementedException();
+    }
 }
