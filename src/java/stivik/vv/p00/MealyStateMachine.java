@@ -1,15 +1,11 @@
 package stivik.vv.p00;
 
-import stivik.vv.p00.models.State;
-import stivik.vv.p00.models.Symbol;
+import stivik.vv.p00.models.*;
 import stivik.vv.p00.parser.XMLMealyParser;
-import stivik.vv.p00.util.TransitionFunction;
-import stivik.vv.p00.util.TransitionMap;
+import stivik.vv.p00.util.*;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
-import javax.xml.bind.Marshaller;
-import javax.xml.bind.Unmarshaller;
 import java.io.File;
 import java.util.Scanner;
 
