@@ -1,4 +1,4 @@
-package stivik.vv.p00.watcher;
+package stivik.vv.p00.util;
 
 @FunctionalInterface
 public interface Callback<T> {

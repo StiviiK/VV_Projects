@@ -1,5 +1,7 @@
 package stivik.vv.p00.watcher;
 
+import stivik.vv.p00.util.Callback;
+
 import java.io.IOException;
 import java.nio.file.*;
 
