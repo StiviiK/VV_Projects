@@ -35,10 +35,7 @@ public class DirectoryWatcher {
             try {
                 WatchKey watchKey = watchService.take();
                 for (WatchEvent<?> event : watchKey.pollEvents()) {
-                    Path path = (Path) event.context();
-                    if (path.toString().endsWith(".msg")) {
-                        callback.call(path);
-                    }
+                    callback.call((Path) event.context());
 
                     if (!watchKey.reset()) {
                         break;
