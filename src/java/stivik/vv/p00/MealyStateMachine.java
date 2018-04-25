@@ -22,7 +22,7 @@ public class MealyStateMachine {
     private State[] m_States;
     private Symbol[] m_Symbols;
 
-    private Thread executor;
+    private Thread machineRunner;
     private BlockingQueue<InputSymbol> queue;
     private MealyInputReader inputReader;
 
@@ -32,13 +32,10 @@ public class MealyStateMachine {
         m_CurrentState = m_States[0];
 
         try {
-            executor = new Thread(this::loop);
+            machineRunner = new Thread(this::loop);
             inputReader = new MealyInputReader(Paths.get("src/java/stivik/vv/p00/resources/input"));
             queue = inputReader.getQueue();
-
-            executor.start();
-            executor.join();
-        } catch (IOException | InterruptedException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
@@ -48,8 +45,12 @@ public class MealyStateMachine {
         m_SymbolTransitionMap.put(transition.getFromState(), transition.getInputSymbol(), ((state, symbol) -> transition.getOutputSymbol()));
     }
 
-    private void loop() {
+    public void start() {
         inputReader.start();
+        machineRunner.start();
+    }
+
+    private void loop() {
         while (true) {
             try {
                 InputSymbol input = queue.take();
@@ -105,7 +106,7 @@ public class MealyStateMachine {
         */
 
         MealyStateMachine machine = MealyStateMachineFactory.build(XMLMealyParser.parse(file));
-        //machine.run();
+        machine.start();
     }
 }
 
