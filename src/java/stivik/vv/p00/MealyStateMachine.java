@@ -53,7 +53,7 @@ public class MealyStateMachine {
         while (true) {
             try {
                 InputSymbol input = queue.take();
-                System.out.println(input);
+                System.out.println(input.getSymbol());
             } catch (InterruptedException e) {
                 e.printStackTrace();
                 break;
