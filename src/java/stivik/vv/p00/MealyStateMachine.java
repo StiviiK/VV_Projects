@@ -7,7 +7,10 @@ import stivik.vv.p00.util.*;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Paths;
 import java.util.Scanner;
+import java.util.concurrent.BlockingQueue;
 
 public class MealyStateMachine {
 
@@ -19,15 +22,43 @@ public class MealyStateMachine {
     private State[] m_States;
     private Symbol[] m_Symbols;
 
+    private Thread executor;
+    private BlockingQueue<InputSymbol> queue;
+    private MealyInputReader inputReader;
+
     public MealyStateMachine(State[] states, Symbol[] symbols) {
         m_States = states;
         m_Symbols = symbols;
         m_CurrentState = m_States[0];
+
+        try {
+            executor = new Thread(this::loop);
+            inputReader = new MealyInputReader(Paths.get("src/java/stivik/vv/p00/resources/input"));
+            queue = inputReader.getQueue();
+
+            executor.start();
+            executor.join();
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     public void addTransition(Transition transition) {
         m_StateTransitionMap.put(transition.getFromState(), transition.getInputSymbol(), transition.getToState());
         m_SymbolTransitionMap.put(transition.getFromState(), transition.getInputSymbol(), ((state, symbol) -> transition.getOutputSymbol()));
+    }
+
+    private void loop() {
+        inputReader.start();
+        while (true) {
+            try {
+                InputSymbol input = queue.take();
+                System.out.println(input);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+                break;
+            }
+        }
     }
 
     public void run() {
@@ -61,7 +92,7 @@ public class MealyStateMachine {
         return m_SymbolTransitionMap.get(currentState, input).transform(currentState, input);
     }
 
-    public static void main(String[] args) throws JAXBException {
+    public static void main(String[] args) throws JAXBException, InterruptedException {
         File file = new File("src/java/stivik/vv/p00/resources/machine.xml");
         JAXBContext context = JAXBContext.newInstance(MealyStateMachineFile.class);
         /*
@@ -74,7 +105,7 @@ public class MealyStateMachine {
         */
 
         MealyStateMachine machine = MealyStateMachineFactory.build(XMLMealyParser.parse(file));
-        machine.run();
+        //machine.run();
     }
 }
 

@@ -1,5 +1,6 @@
 package stivik.vv.p00.watcher;
 
+import com.sun.nio.file.SensitivityWatchEventModifier;
 import stivik.vv.p00.util.Callback;
 
 import java.io.IOException;
@@ -12,9 +13,9 @@ public class DirectoryWatcher {
 
     private boolean interrupt = false;
 
-    public DirectoryWatcher(Path path, Callback<Path> callable) throws IOException, InterruptedException {
+    public DirectoryWatcher(Path path, Callback<Path> callable) throws IOException {
         watchService = FileSystems.getDefault().newWatchService();
-        path.register(watchService, StandardWatchEventKinds.ENTRY_CREATE);
+        path.register(watchService, new WatchEvent.Kind[]{StandardWatchEventKinds.ENTRY_MODIFY}, SensitivityWatchEventModifier.HIGH);
 
         callback = callable;
         watchThread = new Thread(this::loop);
@@ -31,20 +32,19 @@ public class DirectoryWatcher {
     }
 
     private void loop() {
-        while (true) {
+        while (!interrupt) {
             try {
                 WatchKey watchKey = watchService.take();
+                Path dir = (Path) watchKey.watchable();
+
                 for (WatchEvent<?> event : watchKey.pollEvents()) {
-                    callback.call((Path) event.context());
-
-                    if (!watchKey.reset()) {
-                        break;
+                    if (event.kind() == StandardWatchEventKinds.OVERFLOW) {
+                        continue;
                     }
-                }
 
-                if (!interrupt) {
-                    break;
+                    callback.call(dir.resolve((Path) event.context()));
                 }
+                watchKey.reset();
             } catch (InterruptedException e) {
                 e.printStackTrace();
                 break;
