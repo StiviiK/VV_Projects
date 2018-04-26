@@ -38,6 +38,10 @@ public class MealyInputReader implements Callback<Path> {
         watcher.start();
     }
 
+    public void stop() {
+        watcher.stop();
+    }
+
     @Override
     public void call(Path result) {
         if (result.toString().endsWith(".msg")) {

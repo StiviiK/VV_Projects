@@ -11,8 +11,6 @@ public class DirectoryWatcher {
     private Thread watchThread;
     private Callback<Path> callback;
 
-    private boolean interrupt = false;
-
     public DirectoryWatcher(Path path, Callback<Path> callable) throws IOException {
         watchService = FileSystems.getDefault().newWatchService();
         path.register(watchService, new WatchEvent.Kind[]{StandardWatchEventKinds.ENTRY_MODIFY}, SensitivityWatchEventModifier.HIGH);
@@ -22,17 +20,15 @@ public class DirectoryWatcher {
     }
 
     public void start() {
-        interrupt = false;
         watchThread.start();
     }
 
-    public void stop() throws InterruptedException {
-        interrupt = true;
-        watchThread.join();
+    public void stop() {
+        watchThread.interrupt();
     }
 
     private void loop() {
-        while (!interrupt) {
+        while (true) {
             try {
                 WatchKey watchKey = watchService.take();
                 Path dir = (Path) watchKey.watchable();
@@ -46,7 +42,6 @@ public class DirectoryWatcher {
                 }
                 watchKey.reset();
             } catch (InterruptedException e) {
-                e.printStackTrace();
                 break;
             }
         }

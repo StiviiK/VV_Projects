@@ -50,16 +50,36 @@ public class MealyStateMachine {
         machineRunner.start();
     }
 
+    public void stop() {
+        inputReader.stop();
+        machineRunner.interrupt();
+    }
+
     private void loop() {
+        StringBuilder builder = new StringBuilder();
+        builder.append("START");
+
         while (true) {
             try {
+                builder.append(" -> (").append("STATE: ").append(m_CurrentState.name).append(", INPUT: ");
+
+                System.out.print(builder);
+
                 InputSymbol input = queue.take();
+                Symbol inputSymbol = input.getSymbol();
                 System.out.println(input.getSymbol());
+
+                builder.append(inputSymbol.getName()).append(", ").append("OUTPUT: ").append(trigger(m_CurrentState, inputSymbol).getName()).append(")");
+                m_CurrentState = next(m_CurrentState, inputSymbol);
+                if (m_CurrentState.isEnd) {
+                    break;
+                }
             } catch (InterruptedException e) {
-                e.printStackTrace();
                 break;
             }
         }
+
+        stop();
     }
 
     public void run() {
@@ -107,6 +127,7 @@ public class MealyStateMachine {
 
         MealyStateMachine machine = MealyStateMachineFactory.build(XMLMealyParser.parse(file));
         machine.start();
+        System.out.println("hi");
     }
 }
 
