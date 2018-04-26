@@ -7,7 +7,6 @@ import javax.xml.bind.annotation.*;
 
 @XmlRootElement(name = "MealyStateMachine")
 public class MealyStateMachineFile {
-
     @XmlElementWrapper(name = "states")
     @XmlElement(name = "state")
     private State[] states;

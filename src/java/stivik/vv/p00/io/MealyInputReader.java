@@ -1,14 +1,12 @@
-package stivik.vv.p00;
+package stivik.vv.p00.io;
 
 import stivik.vv.p00.models.InputSymbol;
-import stivik.vv.p00.models.Symbol;
 import stivik.vv.p00.util.Callback;
 import stivik.vv.p00.watcher.DirectoryWatcher;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.concurrent.ArrayBlockingQueue;
@@ -25,7 +23,7 @@ public class MealyInputReader implements Callback<Path> {
     private BlockingQueue<InputSymbol> queue;
     private DirectoryWatcher watcher;
 
-    MealyInputReader(Path inputFolder) throws IOException {
+    public MealyInputReader(Path inputFolder) throws IOException {
         queue = new ArrayBlockingQueue<>(10);
         watcher = new DirectoryWatcher(inputFolder, this);
     }

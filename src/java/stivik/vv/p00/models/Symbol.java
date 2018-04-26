@@ -33,15 +33,6 @@ public class Symbol {
         symbols.add(this);
     }
 
-    public Symbol(String name) {
-        this._referenceId = getUniqueReference();
-        this.name = name;
-    }
-
-    private String getUniqueReference() {
-        return Integer.toHexString(hashCode());
-    }
-
     private String get_referenceId() {
         return _referenceId;
     }

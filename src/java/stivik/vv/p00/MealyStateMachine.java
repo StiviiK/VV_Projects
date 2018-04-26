@@ -1,39 +1,30 @@
 package stivik.vv.p00;
 
+import stivik.vv.p00.io.MealyInputReader;
 import stivik.vv.p00.models.*;
 import stivik.vv.p00.parser.XMLMealyParser;
 import stivik.vv.p00.util.*;
 
-import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
-import java.util.Scanner;
 import java.util.concurrent.BlockingQueue;
 
 public class MealyStateMachine {
-
-    private TransitionMap<State> m_StateTransitionMap = new TransitionMap<>();
-    private TransitionMap<TransitionFunction<State, Symbol, Symbol>> m_SymbolTransitionMap = new TransitionMap<>();
-
-    private Scanner m_InputReader = new Scanner(System.in);
-    private State m_CurrentState;
-    private State[] m_States;
-    private Symbol[] m_Symbols;
-
     private Thread machineRunner;
     private BlockingQueue<InputSymbol> queue;
     private MealyInputReader inputReader;
+    private TransitionMap<State> stateTransitionMap = new TransitionMap<>();
+    private TransitionMap<Symbol> symbolTransitionMao = new TransitionMap<>();
+    private State m_CurrentState;
 
     public MealyStateMachine(State[] states, Symbol[] symbols) {
-        m_States = states;
-        m_Symbols = symbols;
-        m_CurrentState = m_States[0];
+        m_CurrentState = states[0];
 
         try {
             machineRunner = new Thread(this::loop);
-            inputReader = new MealyInputReader(Paths.get("src/java/stivik/vv/p00/resources/input"));
+            inputReader = new MealyInputReader(Paths.get("resources/input"));
             queue = inputReader.getQueue();
         } catch (IOException e) {
             e.printStackTrace();
@@ -41,8 +32,8 @@ public class MealyStateMachine {
     }
 
     public void addTransition(Transition transition) {
-        m_StateTransitionMap.put(transition.getFromState(), transition.getInputSymbol(), transition.getToState());
-        m_SymbolTransitionMap.put(transition.getFromState(), transition.getInputSymbol(), ((state, symbol) -> transition.getOutputSymbol()));
+        stateTransitionMap.put(transition.getFromState(), transition.getInputSymbol(), transition.getToState());
+        symbolTransitionMao.put(transition.getFromState(), transition.getInputSymbol(), transition.getOutputSymbol());
     }
 
     public void start() {
@@ -69,8 +60,8 @@ public class MealyStateMachine {
                 Symbol inputSymbol = input.getSymbol();
                 System.out.println(input.getSymbol());
 
-                builder.append(inputSymbol.getName()).append(", ").append("OUTPUT: ").append(trigger(m_CurrentState, inputSymbol).getName()).append(")");
-                m_CurrentState = next(m_CurrentState, inputSymbol);
+                builder.append(inputSymbol.getName()).append(", ").append("OUTPUT: ").append(getOutputSymbol(m_CurrentState, inputSymbol).getName()).append(")");
+                m_CurrentState = getNextState(m_CurrentState, inputSymbol);
                 if (m_CurrentState.isEnd) {
                     break;
                 }
@@ -82,49 +73,16 @@ public class MealyStateMachine {
         stop();
     }
 
-    public void run() {
-        StringBuilder builder = new StringBuilder();
-        builder.append("START");
-        while(true) {
-            builder.append(" -> (").append("STATE: ").append(m_CurrentState.name).append(", INPUT: ");
-
-            System.out.print(builder);
-
-            int input = m_InputReader.nextInt();
-
-            builder.append(input).append(", ").append("OUTPUT: ").append(trigger(m_CurrentState, m_Symbols[input]).getName()).append(")");
-            m_CurrentState = next(m_CurrentState, m_Symbols[input]);
-            if (m_CurrentState.isEnd) {
-                break;
-            }
-        }
-
-        builder.append(" -> END");
-        System.out.println(builder);
+    private Symbol getOutputSymbol(State currentState, Symbol input) {
+        return symbolTransitionMao.get(currentState, input);
     }
 
-    // Zustandsübergang
-    public State next(State currentState, Symbol input) {
-        return m_StateTransitionMap.get(currentState, input);
-    }
-
-    // Ausgabe
-    public Symbol trigger(State currentState, Symbol input) {
-        return m_SymbolTransitionMap.get(currentState, input).transform(currentState, input);
+    private State getNextState(State currentState, Symbol input) {
+        return stateTransitionMap.get(currentState, input);
     }
 
     public static void main(String[] args) throws JAXBException, InterruptedException {
-        File file = new File("src/java/stivik/vv/p00/resources/machine.xml");
-        JAXBContext context = JAXBContext.newInstance(MealyStateMachineFile.class);
-        /*
-        MealyStateMachineFile machineFile = new MealyStateMachineFile();
-        JAXBContext context = JAXBContext.newInstance(MealyStateMachineFile.class);
-        Marshaller m = context.createMarshaller();
-        m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-        m.marshal(machineFile, System.out);
-        m.marshal(machineFile, file);
-        */
-
+        File file = new File("resources/machine.xml");
         MealyStateMachine machine = MealyStateMachineFactory.build(XMLMealyParser.parse(file));
         machine.start();
         System.out.println("hi");

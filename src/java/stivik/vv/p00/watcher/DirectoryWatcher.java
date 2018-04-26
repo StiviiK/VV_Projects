@@ -1,8 +1,8 @@
 package stivik.vv.p00.watcher;
 
-import com.sun.nio.file.SensitivityWatchEventModifier;
 import stivik.vv.p00.util.Callback;
 
+import com.sun.nio.file.SensitivityWatchEventModifier;
 import java.io.IOException;
 import java.nio.file.*;
 
@@ -42,6 +42,7 @@ public class DirectoryWatcher {
                 }
                 watchKey.reset();
             } catch (InterruptedException e) {
+                System.out.println(e.getMessage());
                 break;
             }
         }

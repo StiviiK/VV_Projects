@@ -20,23 +20,6 @@ public class State {
 
     public State() { }
 
-    public State(String name) {
-        _refrenceId = getUniqueReference();
-
-        this.name = name;
-    }
-
-    public State(String name, Boolean isEnd) {
-        _refrenceId = getUniqueReference();
-
-        this.name = name;
-        this.isEnd = isEnd;
-    }
-
-    private String getUniqueReference() {
-        return Integer.toHexString(hashCode());
-    }
-
     public String get_refrenceId() {
         return _refrenceId;
     }
