@@ -1,6 +1,6 @@
 package stivik.vv.p00.parser;
 
-import stivik.vv.p00.MealyStateMachineFile;
+import stivik.vv.p00.models.MealyStateMachineFile;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;

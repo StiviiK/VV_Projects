@@ -1,6 +1,7 @@
 package stivik.vv.p00;
 
 import stivik.vv.p00.io.MealyInputReader;
+import stivik.vv.p00.io.MealyOutputWriter;
 import stivik.vv.p00.models.*;
 import stivik.vv.p00.parser.XMLMealyParser;
 import stivik.vv.p00.util.*;
@@ -13,10 +14,12 @@ import java.util.concurrent.BlockingQueue;
 
 public class MealyStateMachine {
     private Thread machineRunner;
-    private BlockingQueue<InputSymbol> queue;
+    private BlockingQueue<InputSymbol> inputQueue;
+    private BlockingQueue<Symbol> outputQueue;
     private MealyInputReader inputReader;
+    private MealyOutputWriter outputWriter;
     private TransitionMap<State> stateTransitionMap = new TransitionMap<>();
-    private TransitionMap<Symbol> symbolTransitionMao = new TransitionMap<>();
+    private TransitionMap<Symbol> symbolTransitionMap = new TransitionMap<>();
     private State m_CurrentState;
 
     public MealyStateMachine(State[] states, Symbol[] symbols) {
@@ -25,24 +28,28 @@ public class MealyStateMachine {
         try {
             machineRunner = new Thread(this::loop);
             inputReader = new MealyInputReader(Paths.get("resources/input"));
-            queue = inputReader.getQueue();
-        } catch (IOException e) {
+            outputWriter = new MealyOutputWriter(Paths.get("resources/output"));
+            inputQueue = inputReader.getQueue();
+            outputQueue = outputWriter.getQueue();
+        } catch (IOException | JAXBException e) {
             e.printStackTrace();
         }
     }
 
     public void addTransition(Transition transition) {
         stateTransitionMap.put(transition.getFromState(), transition.getInputSymbol(), transition.getToState());
-        symbolTransitionMao.put(transition.getFromState(), transition.getInputSymbol(), transition.getOutputSymbol());
+        symbolTransitionMap.put(transition.getFromState(), transition.getInputSymbol(), transition.getOutputSymbol());
     }
 
     public void start() {
         inputReader.start();
+        outputWriter.start();
         machineRunner.start();
     }
 
     public void stop() {
         inputReader.stop();
+        outputWriter.stop();
         machineRunner.interrupt();
     }
 
@@ -52,15 +59,17 @@ public class MealyStateMachine {
 
         while (true) {
             try {
-                builder.append(" -> (").append("STATE: ").append(m_CurrentState.name).append(", INPUT: ");
+                builder.append(" -> (").append("STATE: ").append(m_CurrentState.getName()).append(", INPUT: ");
 
                 System.out.print(builder);
 
-                InputSymbol input = queue.take();
+                InputSymbol input = inputQueue.take();
                 Symbol inputSymbol = input.getSymbol();
-                System.out.println(input.getSymbol());
+                System.out.println(input.getSymbol().getName());
 
-                builder.append(inputSymbol.getName()).append(", ").append("OUTPUT: ").append(getOutputSymbol(m_CurrentState, inputSymbol).getName()).append(")");
+                Symbol output = getOutputSymbol(m_CurrentState, inputSymbol);
+                outputQueue.put(output);
+                builder.append(inputSymbol.getName()).append(", ").append("OUTPUT: ").append(output.getName()).append(")");
                 m_CurrentState = getNextState(m_CurrentState, inputSymbol);
                 if (m_CurrentState.isEnd) {
                     break;
@@ -74,7 +83,7 @@ public class MealyStateMachine {
     }
 
     private Symbol getOutputSymbol(State currentState, Symbol input) {
-        return symbolTransitionMao.get(currentState, input);
+        return symbolTransitionMap.get(currentState, input);
     }
 
     private State getNextState(State currentState, Symbol input) {
@@ -88,10 +97,3 @@ public class MealyStateMachine {
         System.out.println("hi");
     }
 }
-
-/**
-    java -jar mealy.jar -machine=./file.json -format=json -input=./input.txt -output =./output.txt
-
-    input.txt:
-    "0,0,0,0,1,1,1,1,1,1,0,1,0,1,1,1,1,1,1,0,0,0,0,0,0,0,0,1,1,1,1,2"
- **/

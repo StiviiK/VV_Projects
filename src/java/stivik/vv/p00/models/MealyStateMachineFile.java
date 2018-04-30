@@ -1,7 +1,4 @@
-package stivik.vv.p00;
-
-import stivik.vv.p00.models.State;
-import stivik.vv.p00.models.Symbol;
+package stivik.vv.p00.models;
 
 import javax.xml.bind.annotation.*;
 

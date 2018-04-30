@@ -13,8 +13,9 @@ import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
 public class MealyInputReader implements Callback<Path> {
-    private static InputSymbol parse(Path path) throws JAXBException {
-        JAXBContext context = JAXBContext.newInstance(InputSymbol.class);
+    private JAXBContext context = JAXBContext.newInstance(InputSymbol.class);
+
+    private InputSymbol parse(Path path) throws JAXBException {
         Unmarshaller unmarshaller = context.createUnmarshaller();
 
         return (InputSymbol) unmarshaller.unmarshal(path.toFile());
@@ -23,7 +24,7 @@ public class MealyInputReader implements Callback<Path> {
     private BlockingQueue<InputSymbol> queue;
     private DirectoryWatcher watcher;
 
-    public MealyInputReader(Path inputFolder) throws IOException {
+    public MealyInputReader(Path inputFolder) throws IOException, JAXBException {
         queue = new ArrayBlockingQueue<>(10);
         watcher = new DirectoryWatcher(inputFolder, this);
     }

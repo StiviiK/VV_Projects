@@ -33,7 +33,7 @@ public class Symbol {
         symbols.add(this);
     }
 
-    private String get_referenceId() {
+    public String get_referenceId() {
         return _referenceId;
     }
 
