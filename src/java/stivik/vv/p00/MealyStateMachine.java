@@ -11,8 +11,12 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.concurrent.BlockingQueue;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class MealyStateMachine {
+    private static final Logger LOGGER = Logger.getLogger( MealyStateMachine.class.getName() );
+
     private Thread machineRunner;
     private BlockingQueue<InputSymbol> inputQueue;
     private BlockingQueue<Symbol> outputQueue;
@@ -20,10 +24,10 @@ public class MealyStateMachine {
     private MealyOutputWriter outputWriter;
     private TransitionMap<State> stateTransitionMap = new TransitionMap<>();
     private TransitionMap<Symbol> symbolTransitionMap = new TransitionMap<>();
-    private State m_CurrentState;
+    private State currentState;
 
-    public MealyStateMachine(State[] states, Symbol[] symbols) {
-        m_CurrentState = states[0];
+    MealyStateMachine(State[] states, Symbol[] symbols) {
+        currentState = states[0];
 
         try {
             machineRunner = new Thread(this::loop);
@@ -54,27 +58,35 @@ public class MealyStateMachine {
     }
 
     private void loop() {
-        StringBuilder builder = new StringBuilder();
-        builder.append("START");
-
         while (true) {
             try {
-                builder.append(" -> (").append("STATE: ").append(m_CurrentState.getName()).append(", INPUT: ");
+                Symbol input = inputQueue.take().getSymbol();
+                if(input == null) {
+                    LOGGER.log(Level.WARNING, "Read invalid input symbol!");
+                    continue;
+                }
 
-                System.out.print(builder);
+                Symbol output = getOutputSymbol(currentState, input);
+                if(output == null) {
+                    LOGGER.log(Level.WARNING, "Symbol-Transition failed: STATE[" + currentState.getName() + "] + SYMBOL[" + input.getName() + "] -> undefined result!" );
+                    continue;
+                }
 
-                InputSymbol input = inputQueue.take();
-                Symbol inputSymbol = input.getSymbol();
-                System.out.println(input.getSymbol().getName());
+                State next = getNextState(currentState, input);
+                if (next == null) {
+                    LOGGER.log(Level.WARNING, "State-Transition failed: STATE[" + currentState.getName() + "] + SYMBOL[" + input.getName() + "] -> undefined result!" );
+                    continue;
+                }
 
-                Symbol output = getOutputSymbol(m_CurrentState, inputSymbol);
-                outputQueue.put(output);
-                builder.append(inputSymbol.getName()).append(", ").append("OUTPUT: ").append(output.getName()).append(")");
-                m_CurrentState = getNextState(m_CurrentState, inputSymbol);
-                if (m_CurrentState.isEnd) {
+                if(next.getIsEnd()) {
+                    LOGGER.log(Level.INFO, "Reached end state! Exiting...");
                     break;
                 }
+
+                outputQueue.put(output);
+                currentState = next;
             } catch (InterruptedException e) {
+                LOGGER.log(Level.INFO, "Received termination signal! Exiting...");
                 break;
             }
         }
@@ -90,10 +102,8 @@ public class MealyStateMachine {
         return stateTransitionMap.get(currentState, input);
     }
 
-    public static void main(String[] args) throws JAXBException, InterruptedException {
-        File file = new File("resources/machine.xml");
-        MealyStateMachine machine = MealyStateMachineFactory.build(XMLMealyParser.parse(file));
+    public static void main(String[] args) throws JAXBException {
+        MealyStateMachine machine = MealyStateMachineFactory.build(XMLMealyParser.parse(new File("resources/machine.xml")));
         machine.start();
-        System.out.println("hi");
     }
 }

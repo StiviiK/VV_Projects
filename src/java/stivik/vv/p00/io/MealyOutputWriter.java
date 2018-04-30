@@ -2,14 +2,12 @@ package stivik.vv.p00.io;
 
 import stivik.vv.p00.models.OutputSymbol;
 import stivik.vv.p00.models.Symbol;
-import sun.jvm.hotspot.debugger.cdbg.Sym;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import java.io.File;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
