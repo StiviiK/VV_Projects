@@ -42,7 +42,6 @@ public class DirectoryWatcher {
                 }
                 watchKey.reset();
             } catch (InterruptedException e) {
-                System.out.println(e.getMessage());
                 break;
             }
         }

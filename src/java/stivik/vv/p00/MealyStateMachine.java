@@ -66,17 +66,19 @@ public class MealyStateMachine {
                     continue;
                 }
 
-                Symbol output = getOutputSymbol(currentState, input);
-                if(output == null) {
-                    LOGGER.log(Level.WARNING, "Symbol-Transition failed: STATE[" + currentState.getName() + "] + SYMBOL[" + input.getName() + "] -> undefined result!" );
-                    continue;
-                }
-
                 State next = getNextState(currentState, input);
                 if (next == null) {
                     LOGGER.log(Level.WARNING, "State-Transition failed: STATE[" + currentState.getName() + "] + SYMBOL[" + input.getName() + "] -> undefined result!" );
                     continue;
                 }
+                LOGGER.log(Level.INFO, "Performed State-Transition: STATE[" + currentState.getName() + "] + SYMBOL[" + input.getName() + "] -> STATE[" + next.getName() + "]");
+
+                Symbol output = getOutputSymbol(currentState, input);
+                if(output == null) {
+                    LOGGER.log(Level.WARNING, "Symbol-Transition failed: STATE[" + currentState.getName() + "] + SYMBOL[" + input.getName() + "] -> undefined result!" );
+                    continue;
+                }
+                LOGGER.log(Level.INFO, "Performed OutputSymbol-Transition: STATE[" + currentState.getName() + "] + SYMBOL[" + input.getName() + "] -> SYMBOL[" + output.getName() + "]");
 
                 if(next.getIsEnd()) {
                     LOGGER.log(Level.INFO, "Reached end state! Exiting...");
