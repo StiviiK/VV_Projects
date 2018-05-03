@@ -6,6 +6,9 @@ import com.sun.nio.file.SensitivityWatchEventModifier;
 import java.io.IOException;
 import java.nio.file.*;
 
+/**
+ * @Purpose watches the given Directory for added/modified files and calls then the given callback method
+ */
 public class DirectoryWatcher {
     private WatchService watchService;
     private Thread watchThread;

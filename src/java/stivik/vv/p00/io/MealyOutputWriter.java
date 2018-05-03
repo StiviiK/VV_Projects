@@ -11,6 +11,9 @@ import java.nio.file.Path;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
+/**
+ * @Purpose waits for object in the blocking queue and writes them as XML file to the outputFolder
+ **/
 public class MealyOutputWriter {
     private Path outputPath;
     private JAXBContext context = JAXBContext.newInstance(OutputSymbol.class);

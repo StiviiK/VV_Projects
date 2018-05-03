@@ -105,7 +105,7 @@ public class MealyStateMachine {
     }
 
     public static void main(String[] args) throws JAXBException {
-        MealyStateMachine machine = MealyStateMachineFactory.build(XMLMealyParser.parse(new File("resources/machine.xml")));
+        MealyStateMachine machine = MealyStateMachineFactory.build(XMLMealyParser.parse(new File("resources/p00/machine.xml")));
         machine.start();
     }
 }
