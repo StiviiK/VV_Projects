@@ -31,8 +31,8 @@ public class MealyStateMachine {
 
         try {
             machineRunner = new Thread(this::loop);
-            inputReader = new MealyInputReader(Paths.get("resources/input"));
-            outputWriter = new MealyOutputWriter(Paths.get("resources/output"));
+            inputReader = new MealyInputReader(Paths.get("resources/p00/input"));
+            outputWriter = new MealyOutputWriter(Paths.get("resources/p00/output"));
             inputQueue = inputReader.getQueue();
             outputQueue = outputWriter.getQueue();
         } catch (IOException | JAXBException e) {
