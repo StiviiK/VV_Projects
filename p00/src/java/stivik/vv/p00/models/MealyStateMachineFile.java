@@ -2,6 +2,9 @@ package stivik.vv.p00.models;
 
 import javax.xml.bind.annotation.*;
 
+/**
+ * @Purpose XML model for MealyStateMachine
+ */
 @XmlRootElement(name = "MealyStateMachine")
 public class MealyStateMachineFile {
     @XmlElementWrapper(name = "states")

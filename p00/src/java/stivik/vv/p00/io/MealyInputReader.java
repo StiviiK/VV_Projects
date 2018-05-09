@@ -1,18 +1,26 @@
 package stivik.vv.p00.io;
 
+import stivik.vv.p00.MealyStateMachine;
 import stivik.vv.p00.models.InputSymbol;
-import stivik.vv.p00.util.Callback;
 import stivik.vv.p00.watcher.DirectoryWatcher;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-public class MealyInputReader implements Callback<Path> {
+/**
+ * @Purpose watches the inputFolder, parses .msg files and puts the created InputSymbols into the queue
+ **/
+public class MealyInputReader {
+    private static final Logger LOGGER = Logger.getLogger( MealyStateMachine.class.getName() );
+
     private JAXBContext context = JAXBContext.newInstance(InputSymbol.class);
 
     private InputSymbol parse(Path path) throws JAXBException {
@@ -26,7 +34,7 @@ public class MealyInputReader implements Callback<Path> {
 
     public MealyInputReader(Path inputFolder) throws IOException, JAXBException {
         queue = new ArrayBlockingQueue<>(10);
-        watcher = new DirectoryWatcher(inputFolder, this);
+        watcher = new DirectoryWatcher(inputFolder, this::processFile);
     }
 
     public BlockingQueue<InputSymbol> getQueue() {
@@ -41,11 +49,13 @@ public class MealyInputReader implements Callback<Path> {
         watcher.stop();
     }
 
-    @Override
-    public void call(Path result) {
+    private void processFile(Path result) {
         if (result.toString().endsWith(".msg")) {
             try {
                 queue.put(parse(result));
+                if (!new File(result.toString()).delete()) {
+                    LOGGER.log(Level.WARNING, "Failed to delete '" + result.toString() + "'");
+                }
             } catch (JAXBException | InterruptedException e) {
                 e.printStackTrace();
             }

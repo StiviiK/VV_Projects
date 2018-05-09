@@ -1,8 +1,5 @@
 package stivik.vv.p00.models;
 
-import stivik.vv.p00.models.State;
-import stivik.vv.p00.models.Symbol;
-
 import javax.xml.bind.annotation.*;
 
 @XmlRootElement(name = "transition")
