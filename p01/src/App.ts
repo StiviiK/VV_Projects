@@ -15,8 +15,8 @@ export class App {
     private HTTPSServer: HTTPSServer;
 
     private credentials = {
-        cert: readFileSync("certificate/server.crt", "utf8"),
-        key: readFileSync("certificate/server.key", "utf8"),
+        cert: readFileSync("certificate/localhost.cert", "utf8"),
+        key: readFileSync("certificate/localhost.key", "utf8"),
     };
     private JWTConfig: jwt.Options = {
         credentialsRequired: true,
