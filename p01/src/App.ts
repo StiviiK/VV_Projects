@@ -4,12 +4,14 @@ import * as jwt from "express-jwt";
 import { readFileSync } from "fs";
 import { createServer as createHTTPServer, Server as HTTPServer } from "http";
 import { createServer as createHTTPSServer, Server as HTTPSServer } from "https";
+import { JwtConfig } from "./JwtConfig";
 import { IApiResponse } from "./models/IApiResponse";
 import { IRoute } from "./models/IRoute";
 
 export class App {
     public express: express.Express;
     private debug: boolean = false;
+    private jwt: JwtConfig;
 
     private HTTPServer: HTTPServer;
     private HTTPSServer: HTTPSServer;
@@ -18,26 +20,15 @@ export class App {
         cert: readFileSync("certificate/localhost.cert", "utf8"),
         key: readFileSync("certificate/localhost.key", "utf8"),
     };
-    private JWTConfig: jwt.Options = {
-        credentialsRequired: true,
-        getToken: (req) => {
-            if (req.headers.authorization && req.headers.authorization.split(" ")[0] === "Bearer") {
-                    return req.headers.authorization.split(" ")[1];
-            } else if (req.query && req.query.token) {
-                return req.query.token;
-            }
-            return null;
-        },
-        secret: this.credentials.cert,
-    };
 
     constructor(debug?: boolean) {
         this.debug = debug;
+        this.jwt = new JwtConfig(this.credentials.cert, this.credentials.key);
 
         this.express = express();
         this.express.use(bodyparser.urlencoded({ extended: true }));
         this.express.use(bodyparser.json());
-        // this.express.use(this.getJWTHandler());
+        // this.express.use(this.jwt.getVerifier());
     }
 
     public mountRoutes(routes: IRoute[]): void {
@@ -69,12 +60,8 @@ export class App {
         return this.HTTPSServer;
     }
 
-    public getJWTHandler(): jwt.RequestHandler {
-        return jwt(this.JWTConfig);
-    }
-
-    public getJWTSignSecret() {
-        return this.credentials.key;
+    public getJwtConfig(): JwtConfig {
+        return this.jwt;
     }
 
     private afterMount() {

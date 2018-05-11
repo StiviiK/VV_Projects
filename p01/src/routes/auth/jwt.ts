@@ -2,6 +2,7 @@ import { Router } from "express";
 import { UnauthorizedError } from "express-jwt";
 import * as jwt from "jsonwebtoken";
 import { App } from "../../App";
+import { JwtConfig } from "../../JwtConfig";
 import { JWTObtainError } from "../../models/errors/JWTObtainError";
 import { IApiResponse } from "../../models/IApiResponse";
 import { IJWTPayload } from "../../models/IJWTPayload";
@@ -12,14 +13,17 @@ export class JWTAuthRoute implements IRoute {
     public baseRoute: string = "/jwt";
     public router: Router;
 
+    private jwt: JwtConfig;
+
     public init(app: App): void {
         this.app = app;
+        this.jwt = this.app.getJwtConfig();
         this.router = Router();
         this.mount();
     }
 
     public mount(): void {
-        this.router.get("/", this.app.getJWTHandler(), (req, res, next) => {
+        this.router.get("/", this.jwt.getVerifier(), (req, res, next) => {
             const payload: IJWTPayload = req.user;
             res.send(
                 {
@@ -38,7 +42,7 @@ export class JWTAuthRoute implements IRoute {
             }
 
             const payload: IJWTPayload = {};
-            jwt.sign(payload, this.app.getJWTSignSecret(), { algorithm: "RS256", expiresIn: "1d" }, (err, token) => {
+            this.jwt.signPayload(payload, (err, token) => {
                 if (err) {
                     next(new JWTObtainError(err)); // Wrap Error to JWTObtainError
                     return;
