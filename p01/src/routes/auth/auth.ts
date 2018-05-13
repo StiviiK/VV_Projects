@@ -12,6 +12,7 @@ class AuthRoute implements IRoute {
     public app: App;
     public baseRoute: string = "/auth";
     public subRoutes: IRoute[] = [
+        require("./google"),
         require("./jwt"),
     ];
     public router: Router;

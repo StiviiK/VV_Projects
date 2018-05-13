@@ -14,9 +14,13 @@
     "@types/express-jwt": "0.0.40",
     "@types/jsonwebtoken": "^7.2.7",
     "@types/node": "^10.0.6",
+    "@types/passport": "^0.4.5",
+    "@types/passport-google-oauth": "^1.0.38",
     "express": "^4.16.3",
     "express-jwt": "^5.3.1",
     "jsonwebtoken": "^8.2.1",
+    "passport": "^0.4.0",
+    "passport-google-oauth": "^1.0.0",
     "tslint": "^5.10.0",
     "typescript": "^2.8.3"
   },
