@@ -1,12 +1,13 @@
 import * as bodyparser from "body-parser";
 import * as express from "express";
 import * as jwt from "express-jwt";
+import * as session from "express-session";
 import { readFileSync } from "fs";
 import { createServer as createHTTPServer, Server as HTTPServer } from "http";
 import { createServer as createHTTPSServer, Server as HTTPSServer } from "https";
 import * as passport from "passport";
+import { JwtConfig } from "./config/jwtconfig";
 import { loadConfig as LoadPassportConfig } from "./config/passport";
-import { JwtConfig } from "./JwtConfig";
 import { IApiResponse } from "./models/IApiResponse";
 import { IRoute } from "./models/IRoute";
 
@@ -30,8 +31,9 @@ export class App {
         this.express = express();
         this.express.use(bodyparser.urlencoded({ extended: true }));
         this.express.use(bodyparser.json());
+        this.express.use(session({ secret: "vv_project_01" }));
         this.express.use(passport.initialize());
-        // this.express.use(this.jwt.getVerifier());
+        this.express.use(passport.session());
 
         LoadPassportConfig();
     }

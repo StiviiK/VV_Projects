@@ -2,7 +2,7 @@ import { Router } from "express";
 import { UnauthorizedError } from "express-jwt";
 import * as jwt from "jsonwebtoken";
 import { App } from "../../App";
-import { JwtConfig } from "../../JwtConfig";
+import { JwtConfig } from "../../config/jwtconfig";
 import { JWTObtainError } from "../../models/errors/JWTObtainError";
 import { IApiResponse } from "../../models/IApiResponse";
 import { IJWTPayload } from "../../models/IJWTPayload";
@@ -24,7 +24,7 @@ export class JWTAuthRoute implements IRoute {
 
     public mount(): void {
         this.router.get("/", this.jwt.getVerifier(), (req, res, next) => {
-            const payload: IJWTPayload = req.user;
+            const payload: IJWTPayload = req.user.jwt;
             res.send(
                 {
                     message: "successfully verified token",
@@ -35,9 +35,9 @@ export class JWTAuthRoute implements IRoute {
             );
         });
 
-        this.router.post("/", (req, res, next) => {
-            if (!req.body.secret || req.body.secret !== "hsrosenheim") {
-                next(new UnauthorizedError("invalid_token", { message: "obtain secret is wrong" }));
+        this.router.get("/obtain", (req, res, next) => {
+            if (!req.user || !req.user.authenticated) {
+                res.redirect("/auth/github");
                 return;
             }
 

@@ -1,17 +1,27 @@
 import * as passport from "passport";
-import { OAuth2Strategy as GoogleStrategy } from "passport-google-oauth";
+import { Strategy as GithubStrategy } from "passport-github";
 
 export function loadConfig() {
   passport.use(
-    new GoogleStrategy(
+    new GithubStrategy(
       {
-        callbackURL: "/auth/google/callback",
-        clientID: "172787220631-9m9nlug6luep1n8easap2ma7tkic440c.apps.googleusercontent.com",
-        clientSecret: "bUyH29n_DjPpQoCRS3wJYXmo",
+        callbackURL: "/auth/github/callback",
+        clientID: "032f3ddf42c181b9548d",
+        clientSecret: "d70f5f04baa3a4e271f0dd1fd6cd7b847bb80bb8",
       },
       (accessToken, refreshToken, profile, done) => {
-        done(null, { googleId: profile.id });
+        done(null, { id: profile.id });
       },
     ),
   );
+
+  passport.serializeUser((user, done) => {
+    done(null, true);
+  });
+
+  passport.deserializeUser((authenticated, done) => {
+    if (authenticated) {
+      done(null, { authenticated });
+    }
+  });
 }

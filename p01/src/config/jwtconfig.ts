@@ -12,6 +12,7 @@ export class JwtConfig {
             }
             return null;
         },
+        requestProperty: "user.jwt",
         secret: null,
     };
     private signOptions: SignOptions = { algorithm: "RS256", expiresIn: "1d" };

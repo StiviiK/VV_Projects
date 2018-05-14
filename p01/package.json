@@ -18,13 +18,16 @@
     "@types/passport-google-oauth": "^1.0.38",
     "express": "^4.16.3",
     "express-jwt": "^5.3.1",
+    "express-session": "^1.15.6",
     "jsonwebtoken": "^8.2.1",
     "passport": "^0.4.0",
+    "passport-github": "^1.1.0",
     "passport-google-oauth": "^1.0.0",
     "tslint": "^5.10.0",
     "typescript": "^2.8.3"
   },
   "devDependencies": {
+    "@types/express-session": "^1.15.8",
     "nodemon": "^1.17.4",
     "ts-node": "^6.0.3"
   }
