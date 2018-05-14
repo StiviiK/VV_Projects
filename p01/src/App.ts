@@ -11,6 +11,8 @@ import { loadConfig as LoadPassportConfig } from "./config/passport";
 import { IApiResponse } from "./models/IApiResponse";
 import { IRoute } from "./models/IRoute";
 
+import { database as sequelize } from "./config/database";
+
 export class App {
     public express: express.Express;
     private debug: boolean = false;
@@ -31,7 +33,7 @@ export class App {
         this.express = express();
         this.express.use(bodyparser.urlencoded({ extended: true }));
         this.express.use(bodyparser.json());
-        this.express.use(session({ secret: "vv_project_01" }));
+        this.express.use(session({ secret: "vv_project_01", resave: true, saveUninitialized: true }));
         this.express.use(passport.initialize());
         this.express.use(passport.session());
 
@@ -82,6 +84,9 @@ export class App {
                 break;
             case "InvalidRouteError":
                 res.status(404);
+                break;
+            case "TokenError":
+                res.status(401);
                 break;
             default:
                 res.status(500);

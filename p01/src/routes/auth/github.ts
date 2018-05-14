@@ -23,6 +23,22 @@ class GoogleAuthRoute implements IRoute {
                 res.redirect("/auth/jwt/obtain");
             },
         );
+        this.router.get("/logout", (req, res, next) => {
+            req.session.destroy((err) => {
+                if (err) {
+                    next(err);
+                    return;
+                }
+
+                res.send(
+                    {
+                        message: "successfully revoked oauth access",
+                        method: req.method,
+                        status: true,
+                    } as IApiResponse,
+                );
+            });
+        });
     }
 }
 
