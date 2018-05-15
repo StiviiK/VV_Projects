@@ -11,8 +11,6 @@ import { loadConfig as LoadPassportConfig } from "./config/passport";
 import { IApiResponse } from "./models/IApiResponse";
 import { IRoute } from "./models/IRoute";
 
-import { database as sequelize } from "./config/database";
-
 export class App {
     public express: express.Express;
     private debug: boolean = false;

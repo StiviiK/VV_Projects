@@ -1,14 +1,11 @@
 import * as passport from "passport";
 import { Strategy as GithubStrategy } from "passport-github";
+import { Config } from "./config";
 
 export function loadConfig() {
   passport.use(
     new GithubStrategy(
-      {
-        callbackURL: "/auth/github/callback",
-        clientID: "032f3ddf42c181b9548d",
-        clientSecret: "d70f5f04baa3a4e271f0dd1fd6cd7b847bb80bb8",
-      },
+      Config.oauth.github,
       (accessToken, refreshToken, profile, done) => {
         done(null, { id: profile.id });
       },
