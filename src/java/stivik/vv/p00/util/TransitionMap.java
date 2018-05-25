@@ -11,8 +11,10 @@ import java.util.SortedMap;
  * @Purpose Map structure to hold "State + Symbol -> K" transitions
  *          Underlying "holder" type is an (hash) map which uses the hash of the private class Input (State + Symbol) as index to the target K
  **/
+ // Feedback: Gute Idee!
 public class TransitionMap<K> {
     private class Input {
+        // TODO alte Namenskonvention aus Microsoft umfeld m_ für Member?
         private State m_State;
         private Symbol m_Symbol;
 

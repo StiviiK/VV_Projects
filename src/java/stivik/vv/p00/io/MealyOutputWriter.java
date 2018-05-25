@@ -16,6 +16,7 @@ import java.util.concurrent.BlockingQueue;
  **/
 public class MealyOutputWriter {
     private Path outputPath;
+    // TODO: Was wollen Sie hier mit JAXB?
     private JAXBContext context = JAXBContext.newInstance(OutputSymbol.class);
     private BlockingQueue<Symbol> queue;
     private Thread writer;

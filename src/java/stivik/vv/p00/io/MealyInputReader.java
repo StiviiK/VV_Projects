@@ -21,6 +21,7 @@ import java.util.logging.Logger;
 public class MealyInputReader {
     private static final Logger LOGGER = Logger.getLogger( MealyStateMachine.class.getName() );
 
+    // TODO: Wozu dann der Jaxb Context?
     private JAXBContext context = JAXBContext.newInstance(InputSymbol.class);
 
     private InputSymbol parse(Path path) throws JAXBException {
@@ -32,6 +33,7 @@ public class MealyInputReader {
     private BlockingQueue<InputSymbol> queue;
     private DirectoryWatcher watcher;
 
+    // TODO: Code ist nicht konsistent, sie suchen doch nach einfachen Textdateien?
     public MealyInputReader(Path inputFolder) throws IOException, JAXBException {
         queue = new ArrayBlockingQueue<>(10);
         watcher = new DirectoryWatcher(inputFolder, this::processFile);

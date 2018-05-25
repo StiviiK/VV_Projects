@@ -30,12 +30,19 @@ public class MealyStateMachine {
         currentState = states[0];
 
         try {
+
+            // TODO: Schade, schöner wäre es gewesen, wnen sie es von aussen
+            // zusammensetzen könnten, also Threads und Reader Writer in main erzeugen
             machineRunner = new Thread(this::loop);
+
+            // TODO: Hier ist die Struktur leider "hart" verdrahtet
             inputReader = new MealyInputReader(Paths.get("resources/p00/input"));
             outputWriter = new MealyOutputWriter(Paths.get("resources/p00/output"));
-            inputQueue = inputReader.getQueue();
+            inputQueue = inputReader.getQueue();  
+            // TODO: Queue von außen wäre auch gut gewesen (flexibler)
             outputQueue = outputWriter.getQueue();
         } catch (IOException | JAXBException e) {
+            // TODO: Fehlerbehaldung
             e.printStackTrace();
         }
     }
