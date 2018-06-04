@@ -42,6 +42,8 @@ class CustomerRoute implements IRoute {
         // Creates a customer
         this.router.post("/create", CustomerService.create);
 
+        // PATCH SECTION
+        // Updates a customer
         this.router.patch("/:id", CustomerService.update);
     }
 }

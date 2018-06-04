@@ -16,6 +16,7 @@ class IndexRoute implements IRoute {
     }
 
     public mount(): void {
+        /*
         this.router.get("/", (req, res) => {
             const response: IApiResponse = {
                 message: "success",
@@ -41,6 +42,7 @@ class IndexRoute implements IRoute {
                 res.send(response);
             });
         });
+        */
     }
 }
 

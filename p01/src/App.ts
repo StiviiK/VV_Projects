@@ -6,6 +6,7 @@ import { readFileSync } from "fs";
 import { createServer as createHTTPServer, Server as HTTPServer } from "http";
 import { createServer as createHTTPSServer, Server as HTTPSServer } from "https";
 import * as mongoose from "mongoose";
+import * as morgan from "morgan";
 import * as passport from "passport";
 import { JwtConfig } from "./config/jwtconfig";
 import { loadConfig as LoadPassportConfig } from "./config/passport";
@@ -34,6 +35,7 @@ export class App {
         this.jwt = new JwtConfig(this.credentials.cert, this.credentials.key);
 
         this.express = express();
+        this.express.use(morgan("combined"));
         this.express.use(bodyparser.urlencoded({ extended: true }));
         this.express.use(bodyparser.json());
         this.express.use(session({ secret: "vv_project_01", resave: true, saveUninitialized: true }));
