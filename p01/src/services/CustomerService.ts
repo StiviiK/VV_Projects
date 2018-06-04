@@ -1,9 +1,10 @@
 import { NextFunction, Request, Response } from "express";
 import { wrapCustomerModel } from "../models/database/ICustomer";
 import { IApiResponse } from "../models/IApiResponse";
+import { IApiService } from "../models/IApiService";
 import { Customer, ICustomerModel } from "../schemas/Customer";
 
-class CustomerService {
+class CustomerService implements IApiService {
     public async find(req: Request, res: Response, next: NextFunction) {
         const condition = {
             ...(req.query.firstname !== undefined ? { firstname: req.query.firstname } : { }),
