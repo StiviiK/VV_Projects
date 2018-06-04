@@ -5,11 +5,16 @@ import * as session from "express-session";
 import { readFileSync } from "fs";
 import { createServer as createHTTPServer, Server as HTTPServer } from "http";
 import { createServer as createHTTPSServer, Server as HTTPSServer } from "https";
+import * as mongoose from "mongoose";
 import * as passport from "passport";
 import { JwtConfig } from "./config/jwtconfig";
 import { loadConfig as LoadPassportConfig } from "./config/passport";
+import { create, drop } from "./DatabaseTest";
 import { IApiResponse } from "./models/IApiResponse";
 import { IRoute } from "./models/IRoute";
+
+// drop();
+// create();
 
 export class App {
     public express: express.Express;
@@ -34,6 +39,8 @@ export class App {
         this.express.use(session({ secret: "vv_project_01", resave: true, saveUninitialized: true }));
         this.express.use(passport.initialize());
         this.express.use(passport.session());
+
+        mongoose.connect("mongodb://localhost:27017/test");
 
         LoadPassportConfig();
     }
