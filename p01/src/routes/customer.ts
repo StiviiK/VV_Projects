@@ -1,12 +1,10 @@
 import { Router } from "express";
 import { App } from "../App";
 import { JwtConfig } from "../config/jwtconfig";
-import { IApiCustomer, ICustomer, wrapCustomerModel } from "../models/database/ICustomer";
+import { InvalidRouteError } from "../models/errors/InvalidRouteError";
 import { IApiResponse } from "../models/IApiResponse";
 import { IRoute } from "../models/IRoute";
-import { Address, IAddressModel } from "../schemas/Address";
-import { Customer, ICustomerModel } from "../schemas/Customer";
-import { IInsuranceModel, Insurance } from "../schemas/Insurance";
+import { Service as CustomerService } from "../services/CustomerService";
 
 class CustomerRoute implements IRoute {
     public app: App;
@@ -24,68 +22,27 @@ class CustomerRoute implements IRoute {
     }
 
     public mount(): void {
-        this.router.get("/", this.jwt.getVerifier(), (req, res, next) => {
-            Customer.find({}, (err: any, customers: ICustomerModel[]) => {
-                if (err) {
-                    next(err);
-                    return;
-                }
+        // Protect route with jwt authentication
+        this.router.use(this.jwt.getVerifier());
 
-                const ids = [];
-                customers.forEach((customer: ICustomerModel) => {
-                    ids.push(customer._id);
-                });
+        // GET SECTION
+        // Get all customer ids
+        // this.router.get("/", (req, res, next) => next(new InvalidRouteError("/customer")));
 
-                res.send({
-                    message: "fetched all customers",
-                    method: req.method,
-                    payload: ids,
-                    status: true,
-                } as IApiResponse);
-            });
-        });
+        // Find by condition e.g. /find?firstname=Stefan&lastname=Kürzeder or /find?customerId=5624
+        this.router.get("/find", CustomerService.find);
 
-        this.router.get("/:id", (req, res, next) => {
-            Customer.findById(req.params.id, async (err: any, customer: ICustomerModel) => {
-                if (err) {
-                    next(err);
-                    return;
-                }
+        // Get all infos about an customer
+        this.router.get("/:id", CustomerService.findById);
 
-                if (customer) {
-                    res.send({
-                        message: "found customer",
-                        method: req.method,
-                        payload: await wrapCustomerModel(customer),
-                    } as IApiResponse);
-                } else {
-                    res.send({
-                        message: "customer not found",
-                        method: req.method,
-                        status: false,
-                    } as IApiResponse);
-                }
-            });
-        });
+        // Delete a customer
+        this.router.delete("/:id", CustomerService.remove);
 
-        this.router.post("/create", (req, res, next) => {
-            if (req.body.firstname !== null && req.body.lastname !== null && req.body.customer_number !== null) {
-                const customer: ICustomerModel = new Customer({
-                    customer_number: req.body.customer_number,
-                    firstname: req.body.firstname,
-                    lastname: req.body.lastname,
-                } as ICustomerModel);
+        // POST SECTION
+        // Creates a customer
+        this.router.post("/create", CustomerService.create);
 
-                customer.save((err, newCustomer) => {
-                    res.send({
-                        message: "ok",
-                        method: req.method,
-                        payload: newCustomer,
-                        status: true,
-                    } as IApiResponse);
-                });
-            }
-        });
+        this.router.patch("/:id", CustomerService.update);
     }
 }
 

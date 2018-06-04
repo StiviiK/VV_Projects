@@ -29,7 +29,10 @@ export interface IApiCustomer {
 export async function wrapCustomerModel(customer: ICustomerModel): Promise<IApiCustomer> {
     const contracts: IInsuranceModel[] = [];
     customer.contracts.forEach(async (contractRef: string) => {
-        contracts.push(await Insurance.findById(contractRef));
+        const contract = await Insurance.findById(contractRef);
+        if (contract !== null) {
+            contracts.push(contract);
+        }
     });
     const address: IAddressModel = await Address.findById(customer.address);
 
