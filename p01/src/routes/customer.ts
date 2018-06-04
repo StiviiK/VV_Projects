@@ -46,28 +46,26 @@ class CustomerRoute implements IRoute {
         });
 
         this.router.get("/:id", (req, res, next) => {
-            if (req.params.id !== null) {
-                Customer.findById(req.params.id, async (err: any, customer: ICustomerModel) => {
-                    if (err) {
-                        next(err);
-                        return;
-                    }
+            Customer.findById(req.params.id, async (err: any, customer: ICustomerModel) => {
+                if (err) {
+                    next(err);
+                    return;
+                }
 
-                    if (customer) {
-                        res.send({
-                            message: "found customer",
-                            method: req.method,
-                            payload: await wrapCustomerModel(customer),
-                        } as IApiResponse);
-                    } else {
-                        res.send({
-                            message: "customer not found",
-                            method: req.method,
-                            status: false,
-                        } as IApiResponse);
-                    }
-                });
-            }
+                if (customer) {
+                    res.send({
+                        message: "found customer",
+                        method: req.method,
+                        payload: await wrapCustomerModel(customer),
+                    } as IApiResponse);
+                } else {
+                    res.send({
+                        message: "customer not found",
+                        method: req.method,
+                        status: false,
+                    } as IApiResponse);
+                }
+            });
         });
 
         this.router.post("/create", (req, res, next) => {

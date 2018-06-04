@@ -1,3 +1,4 @@
+import { InsuranceType } from "./models/database/IInsurance";
 import { Address, IAddressModel } from "./schemas/Address";
 import { Customer, ICustomerModel } from "./schemas/Customer";
 import { IInsuranceModel, Insurance } from "./schemas/Insurance";
@@ -6,21 +7,21 @@ export function create() {
     const contract1: IInsuranceModel = new Insurance({
         annualRate: 1000,
         contractNumber: 525625,
-        type: "KFZ",
+        type: InsuranceType.KFZ,
     } as IInsuranceModel);
     contract1.save();
 
     const contract2: IInsuranceModel = new Insurance({
         annualRate: 50,
         contractNumber: 434545,
-        type: "HAFTPFLICHT",
+        type: InsuranceType.HAFTPFLICHT,
     } as IInsuranceModel);
     contract2.save();
 
     const contract3: IInsuranceModel = new Insurance({
         annualRate: 1000,
         contractNumber: 123456,
-        type: "RECHTSCHUTZ",
+        type: InsuranceType.RECHTSCHUTZ,
     } as IInsuranceModel);
     contract3.save();
 
