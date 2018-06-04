@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { wrapCustomerModel } from "../models/database/ICustomer";
 import { IApiResponse } from "../models/IApiResponse";
-import { IDocumentService } from "../models/IApiService";
+import { IDocumentService } from "../models/IDocumentService";
 import { Customer, ICustomerModel } from "../schemas/Customer";
 
 class CustomerService implements IDocumentService {
