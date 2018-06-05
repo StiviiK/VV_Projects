@@ -3,4 +3,5 @@ export interface IApiResponse {
     status: boolean;
     message: string;
     payload?: any;
+    error?: any;
 }

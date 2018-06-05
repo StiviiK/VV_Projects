@@ -1,4 +1,31 @@
+import { OptionsUrlencoded } from "body-parser";
+import * as RateLimit from "express-rate-limit";
+import { SessionOptions } from "express-session";
+import { RequestLimitError } from "../models/errors/RequestLimitError";
+
 export const Config = {
+    express: {
+        request_limit: {
+            delayAfter: 0,
+            max: 1,
+            windowMs: 1000,
+
+            handler: (req, res, next) => {
+                res.setHeader("Retry-After", Math.ceil(Config.express.request_limit.windowMs / 1000));
+                next(new RequestLimitError(Config.express.request_limit.windowMs));
+            },
+        } as RateLimit.Options,
+
+        session: {
+            resave: true,
+            saveUninitialized: true,
+            secret: "vv_project_01",
+        } as SessionOptions,
+
+        urlencoded: {
+            extended: true,
+        } as OptionsUrlencoded,
+    },
     oauth: {
         github: {
             callbackURL: "/auth/github/callback",

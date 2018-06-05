@@ -2,6 +2,7 @@ import * as bodyparser from "body-parser";
 import { IDebugger } from "debug";
 import * as express from "express";
 import * as jwt from "express-jwt";
+import * as RateLimit from "express-rate-limit";
 import * as session from "express-session";
 import { readFileSync } from "fs";
 import { createServer as createHTTPServer, Server as HTTPServer } from "http";
@@ -9,7 +10,9 @@ import { createServer as createHTTPSServer, Server as HTTPSServer } from "https"
 import * as mongoose from "mongoose";
 import * as morgan from "morgan";
 import * as passport from "passport";
+import { Config } from "./config/config";
 import { create, drop } from "./DatabaseTest";
+import { RequestLimitError } from "./models/errors/RequestLimitError";
 import { IApiResponse } from "./models/IApiResponse";
 import { IRoute } from "./models/IRoute";
 import { JWTService } from "./services/JWTService";
@@ -45,11 +48,12 @@ export class App {
 
         this.express = express();
         this.express.use(morgan("combined"));
-        this.express.use(bodyparser.urlencoded({ extended: true }));
+        this.express.use(bodyparser.urlencoded(Config.express.urlencoded));
         this.express.use(bodyparser.json());
-        this.express.use(session({ secret: "vv_project_01", resave: true, saveUninitialized: true }));
+        this.express.use(session(Config.express.session));
         this.express.use(passport.initialize());
         this.express.use(passport.session());
+        this.express.use(new RateLimit(Config.express.request_limit));
         this.express.disable("x-powered-by");
 
         mongoose.connect("mongodb://localhost:27017/test")
@@ -112,21 +116,28 @@ export class App {
             case "CastError":
                 res.status(400);
                 break;
+            case "RequestLimitError":
+                res.status(429);
+                break;
             default:
                 res.status(500);
                 break;
         }
 
         const response: IApiResponse = {
-            message: "an error occured, see payload",
+            error: {
+                code: res.statusCode,
+                data: err.data,
+                message: err.message,
+                name: err.name,
+
+                // javascript construct to add an element conditionally
+                ...(this.debug === true ? { stacktrace: err.stack } : { }),
+            },
+            message: "an error occured, see error payload",
             method: req.method,
-            payload: { code: res.statusCode, name: err.name, message: err.message, data: err.data },
             status: false,
         };
-
-        if (this.debug) {
-            response.payload.stacktrace = err.stack;
-        }
 
         res.send(response);
     }
