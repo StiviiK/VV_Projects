@@ -23,7 +23,7 @@ export class JWTAuthRoute implements IRoute {
     }
 
     public mount(): void {
-        this.router.get("/", this.jwt.getVerifier(), (req, res, next) => {
+        this.router.get("/", this.jwt.authHandler(), (req, res, next) => {
             const payload: IJWTPayload = req.user.jwt;
             res.send(
                 {

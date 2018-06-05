@@ -6,7 +6,7 @@ export class JwtConfig {
         credentialsRequired: true,
         getToken: (req) => {
             if (req.headers.authorization && req.headers.authorization.split(" ")[0] === "Bearer") {
-                    return req.headers.authorization.split(" ")[1];
+                return req.headers.authorization.split(" ")[1];
             } else if (req.query && req.query.token) {
                 return req.query.token;
             }
@@ -23,7 +23,7 @@ export class JwtConfig {
         this.signKey = privateKey;
     }
 
-    public getVerifier(): jwt.RequestHandler {
+    public authHandler(): jwt.RequestHandler {
         return jwt(this.verifyOptions);
     }
 
