@@ -41,33 +41,25 @@ class CustomerRoute implements IRoute {
                 ...(req.query.birthday !== undefined ? { address: req.query.birthday } : { }),
             };
 
-            const result = await CustomerService.find(condition);
-            if (result instanceof Error) {
-                next(result as Error);
-            } else {
-                const customer = result as ICustomerModel[];
-                res.send({
-                    message: "fetched all requested customers",
-                    method: req.method,
-                    payload: customer,
-                    status: true,
-                } as IApiResponse);
-            }
+            const customer = await CustomerService.find(condition, next) as ICustomerModel[];
+            res.send({
+                message: "fetched all requested customers",
+                method: req.method,
+                payload: customer,
+                status: true,
+            } as IApiResponse);
         });
 
         // Get all infos about an customer
         this.router.get("/:id([a-fA-F\\d]{24})", async (req, res, next) => {
-            const result = await CustomerService.findById(req.params.id);
-            if (result instanceof Customer) {
-                const customer = result as ICustomerModel;
+            const customer = await CustomerService.findById(req.params.id, next) as ICustomerModel;
+            if (customer) {
                 res.send({
                     message: "found customer",
                     method: req.method,
                     payload: await wrapCustomerModel(customer),
                 } as IApiResponse);
-            } else if (result instanceof Error) {
-                next(result as Error);
-            } else {
+            } else if (customer === null) {
                 res.send({
                     message: "customer not found",
                     method: req.method,
@@ -78,17 +70,14 @@ class CustomerRoute implements IRoute {
 
         // Delete a customer
         this.router.delete("/:id", async (req, res, next) => {
-            const result = await CustomerService.remove(req.params.id);
-            if (result instanceof Customer) {
-                const customer = result as ICustomerModel;
+            const customer = await CustomerService.remove(req.params.id, next) as ICustomerModel;
+            if (customer) {
                 res.send({
                     message: "successfully deleted costumer",
                     method: req.method,
                     status: true,
                 } as IApiResponse);
-            } else if (result instanceof Error) {
-                next(result as Error);
-            } else {
+            } else if (customer === null) {
                 res.send({
                     message: "customer not found",
                     method: req.method,
@@ -109,18 +98,15 @@ class CustomerRoute implements IRoute {
                 ...(req.body.lastname ? { lastname: req.body.lastname } : { }),
             };
 
-            const result = await CustomerService.create(fields);
-            if (result instanceof Customer) {
-                const customer = result as ICustomerModel;
+            const customer = await CustomerService.create(fields, next) as ICustomerModel;
+            if (customer) {
                 res.send({
                     message: "successfully created customer",
                     method: req.method,
                     payload: { customer },
                     status: true,
                 } as IApiResponse);
-            } else if (result instanceof Error) {
-                next(result as Error);
-            } else {
+            } else if (customer === null) {
                 res.send({
                     message: "failed to create customer",
                     method: req.method,
@@ -141,18 +127,15 @@ class CustomerRoute implements IRoute {
                 ...(req.body.lastname ? { lastname: req.body.lastname } : { }),
             };
 
-            const result = await CustomerService.update(req.params.id, fields);
-            if (result instanceof Customer) {
-                const customer = result as ICustomerModel;
+            const customer = await CustomerService.update(req.params.id, fields, next) as ICustomerModel;
+            if (customer) {
                 res.send({
                     message: "customer successfully updated",
                     method: req.method,
                     payload: await CustomerService.findById(customer._id),
                     status: true,
                 } as IApiResponse);
-            } else if (result instanceof Error) {
-                next(result as Error);
-            } else {
+            } else if (customer === null) {
                 res.send({
                     message: "failed to update customer",
                     method: req.method,
