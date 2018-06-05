@@ -9,26 +9,46 @@ export class DocumentService<T extends Document> {
         this.model = model;
     }
 
-    public async find(condition): Promise<any[]> {
+    public async find(condition): Promise<any[] | Error> {
         const ids = [];
-        (await this.model.find(condition)).forEach((document) => { ids.push(document._id); });
+        try {
+            (await this.model.find(condition)).forEach((document) => { ids.push(document._id); });
+        } catch (e) {
+            return e;
+        }
 
         return ids;
     }
 
-    public async findById(id: any | string | number): Promise<T> {
-        return this.model.findById(id);
+    public async findById(id: any | string | number): Promise<T | Error> {
+        try {
+            return await this.model.findById(id);
+        } catch (e) {
+            return e;
+        }
     }
 
-    public async create(fields): Promise<T> {
-        return this.model.create(fields);
+    public async create(fields): Promise<T | Error> {
+        try {
+            return await this.model.create(fields);
+        } catch (e) {
+            return e;
+        }
     }
 
-    public async remove(id: any | string | number): Promise<T> {
-        return this.model.findByIdAndRemove(id);
+    public async remove(id: any | string | number): Promise<T | Error> {
+        try {
+            return await this.model.findByIdAndRemove(id);
+        } catch (e) {
+            return e;
+        }
     }
 
-    public async update(id: any | string | number, fields): Promise<T> {
-        return this.model.findByIdAndUpdate(id, fields);
+    public async update(id: any | string | number, fields): Promise<T | Error> {
+        try {
+            return await this.model.findByIdAndUpdate(id, fields);
+        } catch (e) {
+            return e;
+        }
     }
 }
