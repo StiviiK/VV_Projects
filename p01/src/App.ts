@@ -52,7 +52,11 @@ export class App {
         this.express.use(passport.session());
         this.express.disable("x-powered-by");
 
-        mongoose.connect("mongodb://localhost:27017/test");
+        mongoose.connect("mongodb://localhost:27017/test")
+            .catch((err) => {
+                // tslint:disable-next-line:no-console
+                console.error(err);
+            });
 
         this.passport.init();
     }

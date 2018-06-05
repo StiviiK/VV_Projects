@@ -69,7 +69,7 @@ class CustomerRoute implements IRoute {
         });
 
         // Delete a customer
-        this.router.delete("/:id", async (req, res, next) => {
+        this.router.delete("/:id([a-fA-F\\d]{24})", async (req, res, next) => {
             const customer = await CustomerService.remove(req.params.id, next) as ICustomerModel;
             if (customer) {
                 res.send({
@@ -123,7 +123,6 @@ class CustomerRoute implements IRoute {
                 ...(req.body.birthday ? { birthday: req.body.birthday } : { }),
                 ...(req.body.customerNumber ? { customer_number: req.body.customerNumber } : { }),
                 ...(req.body.firstname ? { firstname: req.body.firstname } : { }),
-                ...(req.body.lastname ? { lastname: req.body.lastname } : { }),
                 ...(req.body.lastname ? { lastname: req.body.lastname } : { }),
             };
 

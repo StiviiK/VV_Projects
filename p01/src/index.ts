@@ -13,6 +13,8 @@ const routes: IRoute[] = [
     // tslint:disable-next-line:no-var-requires
     require("./routes/customer"),
     // tslint:disable-next-line:no-var-requires
+    require("./routes/insurance"),
+    // tslint:disable-next-line:no-var-requires
     require("./routes/error"),
 ];
 app.mountRoutes(routes);
