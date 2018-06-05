@@ -1,4 +1,5 @@
 import * as bodyparser from "body-parser";
+import { IDebugger } from "debug";
 import * as express from "express";
 import * as jwt from "express-jwt";
 import * as session from "express-session";
@@ -18,6 +19,8 @@ import { IRoute } from "./models/IRoute";
 // create();
 
 export class App {
+    public static LOGGER: IDebugger = require("debug")("app");
+
     public express: express.Express;
     private debug: boolean = false;
     private jwt: JwtConfig;
@@ -32,6 +35,10 @@ export class App {
 
     constructor(debug?: boolean) {
         this.debug = debug;
+        if (this.debug) {
+            App.LOGGER.enabled = true;
+        }
+
         this.jwt = new JwtConfig(this.credentials.cert, this.credentials.key);
 
         this.express = express();
@@ -41,6 +48,7 @@ export class App {
         this.express.use(session({ secret: "vv_project_01", resave: true, saveUninitialized: true }));
         this.express.use(passport.initialize());
         this.express.use(passport.session());
+        this.express.disable("x-powered-by");
 
         mongoose.connect("mongodb://localhost:27017/test");
 
