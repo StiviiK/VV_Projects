@@ -56,7 +56,7 @@ class CustomerRoute implements IRoute {
         });
 
         // Get all infos about an customer
-        this.router.get("/:id", async (req, res, next) => {
+        this.router.get("/:id([a-fA-F\\d]{24})", async (req, res, next) => {
             const result = await CustomerService.findById(req.params.id);
             if (result instanceof Customer) {
                 const customer = result as ICustomerModel;

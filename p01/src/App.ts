@@ -95,6 +95,9 @@ export class App {
             case "TokenError":
                 res.status(401);
                 break;
+            case "CastError":
+                res.status(400);
+                break;
             default:
                 res.status(500);
                 break;
