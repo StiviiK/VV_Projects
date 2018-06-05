@@ -4,6 +4,6 @@ export class RequestLimitError implements Error {
     public stack?: string;
 
     public constructor(retryAfter?: number) {
-        this.message = this.message + "; retry after " + retryAfter as string + " ms"; 
+        this.message = this.message + "; retry after " + retryAfter as string + "ms";
     }
 }

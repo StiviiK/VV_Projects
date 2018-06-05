@@ -1,6 +1,7 @@
 import { Address, IAddressModel } from "../../schemas/Address";
 import { ICustomerModel } from "../../schemas/Customer";
 import { IInsuranceModel, Insurance } from "../../schemas/Insurance";
+import { asyncForEach, sleep } from "../../util";
 import { IAddress } from "./IAddress";
 import { IInsurance } from "./IInsurance";
 
@@ -28,12 +29,16 @@ export interface IApiCustomer {
 
 export async function wrapCustomerModel(customer: ICustomerModel): Promise<IApiCustomer> {
     const contracts: IInsuranceModel[] = [];
-    customer.contracts.forEach(async (contractRef: string) => {
+    await asyncForEach(customer.contracts, async (contractRef: string) => {
         const contract = await Insurance.findById(contractRef);
         if (contract !== null) {
             contracts.push(contract);
         }
+
+        // Add if necessary
+        // sleep(1);
     });
+
     const address: IAddressModel = await Address.findById(customer.address);
 
     return await {
