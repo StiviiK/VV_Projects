@@ -20,7 +20,7 @@ Routes:
 * GET /find?QUERY => Lists all insurances depending on query
     * Possible fields: annualRate, contractNumber, type
     * Examples: /find?contractNumber=1234, /find?type=KFZ&annualRate=1000 (multiple fields can be combined)
-* GET /:[hash] => Responds with the customer insurances with matching id
+* GET /:[hash] => Responds with the insurance with matching id
 * POST /create => Creates a new insurances, fields are the same as in /find?QUERY
     * Fields have to be send in the body "x-www-form-urlendcoded"
 * DELETE /:[hash] => Deletes the insurances with matching id
