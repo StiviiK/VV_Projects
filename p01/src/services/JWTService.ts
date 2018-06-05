@@ -1,7 +1,7 @@
 import * as jwt from "express-jwt";
 import { sign as SignPayload, SignOptions } from "jsonwebtoken";
 
-export class JwtConfig {
+export class JWTService {
     private verifyOptions: jwt.Options = {
         credentialsRequired: true,
         getToken: (req) => {

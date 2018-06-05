@@ -1,12 +1,12 @@
 import { Router } from "express";
 import { App } from "../App";
-import { JwtConfig } from "../config/jwtconfig";
 import { wrapCustomerModel } from "../models/database/ICustomer";
 import { InvalidRouteError } from "../models/errors/InvalidRouteError";
 import { IApiResponse } from "../models/IApiResponse";
 import { IRoute } from "../models/IRoute";
 import { Customer, ICustomerModel } from "../schemas/Customer";
 import { CustomerService } from "../services/CustomerService";
+import { JWTService } from "../services/JWTService";
 
 class CustomerRoute implements IRoute {
     public app: App;
@@ -14,11 +14,11 @@ class CustomerRoute implements IRoute {
     public router: Router;
     public subRoutes?: IRoute[];
 
-    private jwt: JwtConfig;
+    private jwt: JWTService;
 
     public init(app: App): void {
         this.app = app;
-        this.jwt = this.app.getJwtConfig();
+        this.jwt = this.app.getJWTService();
         this.router = Router();
         this.mount();
     }
@@ -137,7 +137,7 @@ class CustomerRoute implements IRoute {
                 } as IApiResponse);
             } else if (customer === null) {
                 res.send({
-                    message: "failed to update customer",
+                    message: "customer not found",
                     method: req.method,
                     status: false,
                 } as IApiResponse);

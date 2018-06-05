@@ -2,22 +2,22 @@ import { Router } from "express";
 import { UnauthorizedError } from "express-jwt";
 import * as jwt from "jsonwebtoken";
 import { App } from "../../App";
-import { JwtConfig } from "../../config/jwtconfig";
 import { JWTObtainError } from "../../models/errors/JWTObtainError";
 import { IApiResponse } from "../../models/IApiResponse";
 import { IJWTPayload } from "../../models/IJWTPayload";
 import { IRoute } from "../../models/IRoute";
+import { JWTService } from "../../services/JWTService";
 
 export class JWTAuthRoute implements IRoute {
     public app: App;
     public baseRoute: string = "/jwt";
     public router: Router;
 
-    private jwt: JwtConfig;
+    private jwt: JWTService;
 
     public init(app: App): void {
         this.app = app;
-        this.jwt = this.app.getJwtConfig();
+        this.jwt = this.app.getJWTService();
         this.router = Router();
         this.mount();
     }

@@ -9,11 +9,11 @@ import { createServer as createHTTPSServer, Server as HTTPSServer } from "https"
 import * as mongoose from "mongoose";
 import * as morgan from "morgan";
 import * as passport from "passport";
-import { JwtConfig } from "./config/jwtconfig";
-import { loadConfig as LoadPassportConfig } from "./config/passport";
 import { create, drop } from "./DatabaseTest";
 import { IApiResponse } from "./models/IApiResponse";
 import { IRoute } from "./models/IRoute";
+import { JWTService } from "./services/JWTService";
+import { PassportService } from "./services/PassportService";
 
 // drop();
 // create();
@@ -23,7 +23,8 @@ export class App {
 
     public express: express.Express;
     private debug: boolean = false;
-    private jwt: JwtConfig;
+    private jwt: JWTService;
+    private passport: PassportService;
 
     private HTTPServer: HTTPServer;
     private HTTPSServer: HTTPSServer;
@@ -39,7 +40,8 @@ export class App {
             App.LOGGER.enabled = true;
         }
 
-        this.jwt = new JwtConfig(this.credentials.cert, this.credentials.key);
+        this.jwt = new JWTService(this.credentials.cert, this.credentials.key);
+        this.passport = new PassportService();
 
         this.express = express();
         this.express.use(morgan("combined"));
@@ -52,7 +54,7 @@ export class App {
 
         mongoose.connect("mongodb://localhost:27017/test");
 
-        LoadPassportConfig();
+        this.passport.init();
     }
 
     public mountRoutes(routes: IRoute[]): void {
@@ -84,7 +86,7 @@ export class App {
         return this.HTTPSServer;
     }
 
-    public getJwtConfig(): JwtConfig {
+    public getJWTService(): JWTService {
         return this.jwt;
     }
 
