@@ -117,7 +117,7 @@ class CustomerRoute implements IRoute {
 
         // PATCH SECTION
         // Updates a customer
-        this.router.patch("/:id", async (req, res, next) => {
+        this.router.patch("/:id([a-fA-F\\d]{24})", async (req, res, next) => {
             const fields = {
                 ...(req.body.addressRef ? { address: req.body.addressRef } : { }),
                 ...(req.body.birthday ? { birthday: req.body.birthday } : { }),

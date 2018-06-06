@@ -4,7 +4,6 @@ import * as express from "express";
 import * as jwt from "express-jwt";
 import * as RateLimit from "express-rate-limit";
 import * as session from "express-session";
-import { readFileSync } from "fs";
 import { createServer as createHTTPServer, Server as HTTPServer } from "http";
 import { createServer as createHTTPSServer, Server as HTTPSServer } from "https";
 import * as mongoose from "mongoose";
@@ -32,10 +31,7 @@ export class App {
     private HTTPServer: HTTPServer;
     private HTTPSServer: HTTPSServer;
 
-    private credentials = {
-        cert: readFileSync("certificate/localhost.cert", "utf8"),
-        key: readFileSync("certificate/localhost.key", "utf8"),
-    };
+    private credentials = Config.credentials;
 
     constructor(debug?: boolean) {
         this.debug = debug;
@@ -43,7 +39,7 @@ export class App {
             App.LOGGER.enabled = true;
         }
 
-        this.jwt = new JWTService(this.credentials.cert, this.credentials.key);
+        this.jwt = new JWTService(this.credentials.cert as string, this.credentials.key as string);
         this.passport = new PassportService();
 
         this.express = express();

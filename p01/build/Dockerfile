@@ -6,7 +6,7 @@ ADD . .
 
 # Get node-prune (https://github.com/tj/node-prune)
 RUN apt-get update && \
-    apt-get install curl && \
+    apt-get install -y curl && \
     curl -sfL https://install.goreleaser.com/github.com/tj/node-prune.sh | bash
 
 # Build the app

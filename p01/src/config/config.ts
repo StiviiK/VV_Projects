@@ -1,14 +1,20 @@
 import { OptionsUrlencoded } from "body-parser";
 import * as RateLimit from "express-rate-limit";
 import { SessionOptions } from "express-session";
+import { readFileSync } from "fs";
+import { SecureContextOptions } from "tls";
 import { RequestLimitError } from "../models/errors/RequestLimitError";
 
 export const Config = {
+    credentials: {
+        cert: readFileSync("certificate/localhost.cert", "utf8"),
+        key: readFileSync("certificate/localhost.key", "utf8"),
+    } as SecureContextOptions,
     express: {
         request_limit: {
             delayAfter: 0,
-            max: 1,
-            windowMs: 1000,
+            max: 60,
+            windowMs: 60000,
 
             handler: (req, res, next) => {
                 res.setHeader("Retry-After", Math.ceil(Config.express.request_limit.windowMs / 1000));

@@ -34,6 +34,7 @@
     "passport": "^0.4.0",
     "passport-github": "^1.1.0",
     "passport-google-oauth": "^1.0.0",
+    "redbird": "^0.7.0",
     "supports-color": "^5.4.0",
     "tslint": "^5.10.0",
     "typescript": "^2.8.3"
