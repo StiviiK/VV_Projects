@@ -6,7 +6,8 @@
   "scripts": {
     "build": "tsc",
     "build:live": "./node_modules/.bin/nodemon -w ./src -w ./node_modules --exec ./node_modules/.bin/ts-node ./src/index.ts",
-    "debug": "node --nolazy --inspect-brk=9229 ./node_modules/ts-node/dist/bin.js ./src/index.ts"
+    "debug": "node --nolazy --inspect-brk=9229 ./node_modules/ts-node/dist/bin.js ./src/index.ts",
+    "test": "npm run build && mocha --timeout 10000 ./src/tests --exit"
   },
   "author": "StiviK",
   "license": "UNLICENSED",
@@ -39,6 +40,8 @@
     "typescript": "^2.8.3"
   },
   "devDependencies": {
+    "chai": "^4.1.2",
+    "chai-http": "^4.0.0",
     "nodemon": "^1.17.4",
     "ts-node": "^6.0.3"
   }

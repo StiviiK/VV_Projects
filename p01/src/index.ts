@@ -24,6 +24,10 @@ app.listen(port, (err, allocatedPort) => {
         throw err;
     }
 
-    // tslint:disable-next-line:no-console
-    console.log(`server is listening on ${allocatedPort}`);
+    if (process.env.NODE_ENV !== "test") {
+        // tslint:disable-next-line:no-console
+        console.log(`server is listening on ${allocatedPort}`);
+    }
 });
+
+module.exports = app.express;

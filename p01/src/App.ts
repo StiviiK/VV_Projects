@@ -43,7 +43,9 @@ export class App {
         this.passport = new PassportService();
 
         this.express = express();
-        this.express.use(morgan("combined"));
+        if (process.env.NODE_ENV !== "test") {
+            this.express.use(morgan("combined"));
+        }
         this.express.use(bodyparser.urlencoded(Config.express.urlencoded));
         this.express.use(bodyparser.json());
         this.express.use(session(Config.express.session));
