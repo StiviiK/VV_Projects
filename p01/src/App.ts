@@ -54,7 +54,7 @@ export class App {
         this.express.use(new RateLimit(Config.express.request_limit));
         this.express.disable("x-powered-by");
 
-        mongoose.connect("mongodb://localhost:27017/test")
+        mongoose.connect(process.env.MONGO_DB_URL || "mongodb://localhost:27017/test")
             .catch((err) => {
                 // tslint:disable-next-line:no-console
                 console.error(err);

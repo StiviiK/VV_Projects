@@ -10,6 +10,8 @@ services:
       - database
     links:
       - database
+    environment:
+      - MONGO_DB_URL=mongodb://database:27017/test
   database:
     image: mongo
   manage:
