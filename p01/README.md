@@ -12,6 +12,8 @@ Routes:
 * DELETE /:[hash] => Deletes the customer with matching id
 * PATCH /:[hash] => Updates the given fields 
     * see "POST /create" for additional information on fields
+* PUT: /:[customerHash]/insurance/:[insuranceHash] => Adds the given insurance to the customer
+* DELETE: /:[customerHash]/insurance/:[insuranceHash] => Removes the given insurance from the customer
 
 ### Insurance  
 Base Route: https://hsro.dev:3443/insurance  

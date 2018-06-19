@@ -76,12 +76,12 @@ export class App {
         this.afterMount();
     }
 
-    public listen(port: number | string, callback: (err, port) => void, optionalHttp?: boolean) {
+    public listen(port: number, callback: (err, port) => void, optionalHttp?: boolean) {
         if (optionalHttp) {
             this.HTTPServer = createHTTPServer(this.express).listen(port, (err) => callback(err, port));
         }
         this.HTTPSServer = createHTTPSServer(this.credentials, this.express)
-                            .listen(port as number + 443, (err) => callback(err, port as number + 443));
+                            .listen(port + 443, (err) => callback(err, port + 443));
     }
 
     public getServer(http?: boolean): HTTPServer | HTTPSServer {

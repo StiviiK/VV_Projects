@@ -53,7 +53,7 @@ export class DocumentService<T extends Document> {
         }
     }
 
-    private handleError(err, errorHandler?: NextFunction) {
+    protected handleError(err, errorHandler?: NextFunction) {
         if (errorHandler !== undefined) {
             errorHandler(err);
             return -1; // return any value != null to prevent further responses to the request

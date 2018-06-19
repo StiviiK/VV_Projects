@@ -5,7 +5,9 @@ import { InvalidRouteError } from "../models/errors/InvalidRouteError";
 import { IApiResponse } from "../models/IApiResponse";
 import { IRoute } from "../models/IRoute";
 import { Customer, ICustomerModel } from "../schemas/Customer";
+import { IInsuranceModel } from "../schemas/Insurance";
 import { CustomerService } from "../services/CustomerService";
+import { InsuranceService } from "../services/InsuranceService";
 import { JWTService } from "../services/JWTService";
 
 class CustomerRoute implements IRoute {
@@ -137,6 +139,69 @@ class CustomerRoute implements IRoute {
             } else if (customer === null) {
                 res.send({
                     message: "customer not found",
+                    method: req.method,
+                    status: false,
+                } as IApiResponse);
+            }
+        });
+
+        // INSURANCE SECTION
+        // adds an insurance to an customer
+        this.router.put("/:id([a-fA-F\\d]{24})/insurance/:insuranceId([a-fA-F\\d]{24})", async (req, res, next) => {
+            const fields = { $push: { contracts: req.params.insuranceId } };
+
+            const customer = await CustomerService.update(req.params.id, fields, next) as ICustomerModel;
+            if (customer) {
+                res.send({
+                    message: "insurance successfully added",
+                    method: req.method,
+                    payload: await CustomerService.findById(customer._id),
+                    status: true,
+                } as IApiResponse);
+            } else if (customer === null) {
+                res.send({
+                    message: "customer not found",
+                    method: req.method,
+                    status: false,
+                } as IApiResponse);
+            }
+        });
+
+        // removes an insurance from an customer
+        this.router.delete("/:id([a-fA-F\\d]{24})/insurance/:insuranceId([a-fA-F\\d]{24})", async (req, res, next) => {
+            const customer = await CustomerService.findById(req.params.id, next) as ICustomerModel;
+            if (customer === null) {
+                res.send({
+                    message: "customer not found",
+                    method: req.method,
+                    status: false,
+                } as IApiResponse);
+
+                return;
+            }
+
+            const insurance = await InsuranceService.findById(req.params.insuranceId, next) as IInsuranceModel;
+            if (insurance === null) {
+                res.send({
+                    message: "insurance not found",
+                    method: req.method,
+                    status: false,
+                } as IApiResponse);
+
+                return;
+            }
+
+            const result = await CustomerService.removeInsurance(customer, insurance, next) as ICustomerModel;
+            if (result) {
+                res.send({
+                    message: "insurance successfully removed",
+                    method: req.method,
+                    payload: await CustomerService.findById(result._id),
+                    status: true,
+                } as IApiResponse);
+            } else if (result === null) {
+                res.send({
+                    message: "failed to remove insurance",
                     method: req.method,
                     status: false,
                 } as IApiResponse);

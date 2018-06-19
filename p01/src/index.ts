@@ -2,7 +2,7 @@ import * as fs from "fs";
 import { App } from "./App";
 import { IRoute } from "./models/IRoute";
 
-const port = process.env.PORT || 3000;
+const port = +process.env.PORT || 3000;
 
 const app: App = new App();
 const routes: IRoute[] = [
