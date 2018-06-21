@@ -4,6 +4,7 @@ import { App } from "../../App";
 import { IApiResponse } from "../../models/IApiResponse";
 import { IRoute } from "../../models/IRoute";
 
+// sub-router for handling oauth authentication with github
 class GoogleAuthRoute implements IRoute {
     public app: App;
     public baseRoute: string = "/github";

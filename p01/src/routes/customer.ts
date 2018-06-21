@@ -10,6 +10,7 @@ import { CustomerService } from "../services/CustomerService";
 import { InsuranceService } from "../services/InsuranceService";
 import { JWTService } from "../services/JWTService";
 
+// router for CustomerAPI
 class CustomerRoute implements IRoute {
     public app: App;
     public baseRoute: string = "/customer";

@@ -1,13 +1,8 @@
 import { Router } from "express";
-import { UnauthorizedError } from "express-jwt";
-import * as jwt from "jsonwebtoken";
 import { App } from "../../App";
-import { InvalidRouteError } from "../../models/errors/InvalidRouteError";
-import { JWTObtainError } from "../../models/errors/JWTObtainError";
-import { IApiResponse } from "../../models/IApiResponse";
-import { IJWTPayload } from "../../models/IJWTPayload";
 import { IRoute } from "../../models/IRoute";
 
+// router for handling authentication sub-routes (github, jwt)
 class AuthRoute implements IRoute {
     public app: App;
     public baseRoute: string = "/auth";

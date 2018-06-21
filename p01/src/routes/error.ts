@@ -1,9 +1,11 @@
 import { Router } from "express";
 import { App } from "../App";
 import { InvalidRouteError } from "../models/errors/InvalidRouteError";
-import { IApiResponse } from "../models/IApiResponse";
 import { IRoute } from "../models/IRoute";
 
+// router to catch invalid routes
+// special router, gets loaded last and is listening on all routes
+// responds with an InvalidRouteError
 class ErrorRoute implements IRoute {
     public app: App;
     public baseRoute: string = "*";

@@ -3,6 +3,8 @@ import { Address, IAddressModel } from "./schemas/Address";
 import { Customer, ICustomerModel } from "./schemas/Customer";
 import { IInsuranceModel, Insurance } from "./schemas/Insurance";
 
+// test function to fill db with mock data, unused!
+
 export function create() {
     const contract1: IInsuranceModel = new Insurance({
         annualRate: 1000,

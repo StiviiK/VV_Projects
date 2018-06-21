@@ -1,3 +1,4 @@
+// defines the layout how the api always responds
 export interface IApiResponse {
     method: string;
     status: boolean;

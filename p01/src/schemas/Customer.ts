@@ -1,6 +1,7 @@
 import { Document, Model, model, Schema} from "mongoose";
 import { ICustomer } from "../models/database/ICustomer";
-import { Address, IAddressModel } from "./Address";
+
+// create the Customer schema and model (MongoDB)
 
 export interface ICustomerModel extends ICustomer, Document { }
 

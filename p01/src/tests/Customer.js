@@ -52,6 +52,7 @@ describe("Main api tests", () => {
                 .end((req, res) => {
                     res.should.have.status(200);
                     res.body.status.should.be.true;
+                    res.body.payload.should.be.empty();
                     done();
                 });
         })

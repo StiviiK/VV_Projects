@@ -1,12 +1,12 @@
 import { Router } from "express";
 import { App } from "../App";
-import { InvalidRouteError } from "../models/errors/InvalidRouteError";
 import { IApiResponse } from "../models/IApiResponse";
 import { IRoute } from "../models/IRoute";
 import { IInsuranceModel } from "../schemas/Insurance";
 import { InsuranceService } from "../services/InsuranceService";
 import { JWTService } from "../services/JWTService";
 
+// router for CustomerAPI
 class InsuranceRoute implements IRoute {
     public app: App;
     public baseRoute: string = "/insurance";

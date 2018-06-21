@@ -18,15 +18,18 @@ export class JWTService {
     private signOptions: SignOptions = { algorithm: "RS256", expiresIn: "1d" };
     private signKey: string = null;
 
+    // sign the payloads with public and private key
     public constructor(publicKey: string, privateKey: string) {
         this.verifyOptions.secret = publicKey;
         this.signKey = privateKey;
     }
 
+    // returns the middlewar to protect routes
     public authHandler(): jwt.RequestHandler {
         return jwt(this.verifyOptions);
     }
 
+    // creates from any object (payload) a valid jwt token and signs it
     public signPayload(payload: any, callback: (err: Error, token: string) => void) {
         SignPayload(payload, this.signKey, this.signOptions, callback);
     }

@@ -1,7 +1,6 @@
 import * as bodyparser from "body-parser";
 import { IDebugger } from "debug";
 import * as express from "express";
-import * as jwt from "express-jwt";
 import * as RateLimit from "express-rate-limit";
 import * as session from "express-session";
 import { createServer as createHTTPServer, Server as HTTPServer } from "http";
@@ -10,16 +9,12 @@ import * as mongoose from "mongoose";
 import * as morgan from "morgan";
 import * as passport from "passport";
 import { Config } from "./config/config";
-import { create, drop } from "./DatabaseTest";
-import { RequestLimitError } from "./models/errors/RequestLimitError";
 import { IApiResponse } from "./models/IApiResponse";
 import { IRoute } from "./models/IRoute";
 import { JWTService } from "./services/JWTService";
 import { PassportService } from "./services/PassportService";
 
-// drop();
-// create();
-
+// main restapi class
 export class App {
     public static LOGGER: IDebugger = require("debug")("app");
 
@@ -39,20 +34,22 @@ export class App {
             App.LOGGER.enabled = true;
         }
 
+        // sign the jwt's with private and public key from the certificate (better use own pair in production)
         this.jwt = new JWTService(this.credentials.cert as string, this.credentials.key as string);
         this.passport = new PassportService();
 
+        // add some (required) middleware
         this.express = express();
         if (process.env.NODE_ENV !== "test") {
-            this.express.use(morgan("combined"));
+            this.express.use(morgan("combined")); // loggger
         }
         this.express.use(bodyparser.urlencoded(Config.express.urlencoded));
         this.express.use(bodyparser.json());
         this.express.use(session(Config.express.session));
         this.express.use(passport.initialize());
         this.express.use(passport.session());
-        this.express.use(new RateLimit(Config.express.request_limit));
-        this.express.disable("x-powered-by");
+        this.express.use(new RateLimit(Config.express.request_limit)); // add Ratelimiter (1 req/1 s)
+        this.express.disable("x-powered-by"); // disable the header, could tell attackers useful vunerability infos
 
         mongoose.connect(process.env.MONGO_DB_URL || "mongodb://localhost:27017/test")
             .catch((err) => {
@@ -76,6 +73,7 @@ export class App {
         this.afterMount();
     }
 
+    // create the HTTPs server with an optional HTTP server
     public listen(port: number, callback: (err, port) => void, optionalHttp?: boolean) {
         if (optionalHttp) {
             this.HTTPServer = createHTTPServer(this.express).listen(port, (err) => callback(err, port));
@@ -96,11 +94,14 @@ export class App {
         return this.jwt;
     }
 
+    // "catch" all request after no middleware handled it, or forwarded the request with an error
+    // "Error Catcher"
     private afterMount() {
         this.express.use(((err, req, res, next) => this.handleError(err, req, res, next)));
     }
 
     private handleError(err, req, res, next) {
+        // change error codes for specific errors, fallback to status 500
         switch (err.name) {
             case "UnauthorizedError":
                 res.status(401);
@@ -122,7 +123,8 @@ export class App {
                 break;
         }
 
-        const response: IApiResponse = {
+        // send the error object
+        res.send({
             error: {
                 code: res.statusCode,
                 data: err.data,
@@ -135,8 +137,6 @@ export class App {
             message: "an error occured, see error payload",
             method: req.method,
             status: false,
-        };
-
-        res.send(response);
+        } as IApiResponse);
     }
 }

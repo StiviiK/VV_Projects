@@ -4,6 +4,7 @@ export enum InsuranceType {
     KFZ         = "KFZ",
 }
 
+// layout for the InsuranceSchema (MongoDB)
 export interface IInsurance {
     annualRate: number;
     contractNumber: number;

@@ -3,6 +3,7 @@ import { Document, Model } from "mongoose";
 import { Customer, ICustomerModel } from "../schemas/Customer";
 import { IInsuranceModel, Insurance } from "../schemas/Insurance";
 
+// Base class for handling document changes in the db
 export class DocumentService<T extends Document> {
     public model: Model<T>;
 
@@ -56,7 +57,8 @@ export class DocumentService<T extends Document> {
     protected handleError(err, errorHandler?: NextFunction) {
         if (errorHandler !== undefined) {
             errorHandler(err);
-            return -1; // return any value != null to prevent further responses to the request
+            return -1;  // return any value != null to prevent further responses to the request
+                        // because we can't stop code execution here, we have to return something
         } else {
             return err;
         }

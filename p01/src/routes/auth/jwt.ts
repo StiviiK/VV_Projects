@@ -1,6 +1,4 @@
 import { Router } from "express";
-import { UnauthorizedError } from "express-jwt";
-import * as jwt from "jsonwebtoken";
 import { App } from "../../App";
 import { JWTObtainError } from "../../models/errors/JWTObtainError";
 import { IApiResponse } from "../../models/IApiResponse";
@@ -8,6 +6,7 @@ import { IJWTPayload } from "../../models/IJWTPayload";
 import { IRoute } from "../../models/IRoute";
 import { JWTService } from "../../services/JWTService";
 
+// sub-router to handle jwt-token generation and verification
 export class JWTAuthRoute implements IRoute {
     public app: App;
     public baseRoute: string = "/jwt";

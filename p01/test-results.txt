@@ -1,0 +1,21 @@
+  JWT tests
+    test unauthorized request
+      ✓ should return an unauthorized error (/auth/jwt)
+    test authorized request
+      ✓ should return info for the jwt token (/auth/jwt?token=eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE1MjgxMTcyOTZ9.K3xqqJjII80U5KS6Fqx7ki3HFXTfN5OPIY6OGtau-bar6BKRBdoqlw1Jeo9NokMY-PDtc6ORVugOp7R146fi4CeMWtJMofZ3K-NWS85_TegnzJ4PjMDONKst20JIJ_nYteryh1B8gmYNtWEXL75mhYYfEpAGlZD69iY2XIPN9C6YZlp8rp80IuPRxKWTUVEEgY6s4ypO-AR34gRIilM6-iGUgn8VBs6bDTzdptIZgfTOJy9RxqC1lhINUXyZmeIneZJtET8-oo2oZwJExCzWTulfE9B-455pQzCoNKUl0Rmsn-JzNh3Jw2uCGxxWrCuh-0wfQRRcn4VbCcjfEm4TWw)
+
+  Main api tests
+    test get all customers
+      ✓ should return no customers
+    test add customer and insurance
+      ✓ should create an customer
+      ✓ should create an insurance
+    test add/remove insurance to/from the customer
+      ✓ should add the insurance to the customer
+      ✓ should remove the insurance from the customer
+    test delete the customer and insurance
+      ✓ should delete the newly added insurance
+      ✓ should delete the newly added customer
+
+
+  9 passing (95ms)

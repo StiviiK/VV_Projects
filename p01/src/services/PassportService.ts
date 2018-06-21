@@ -2,6 +2,7 @@ import * as passport from "passport";
 import { Strategy as GithubStrategy } from "passport-github";
 import { Config } from "../config/config";
 
+// configuration for OAuth authentication (usign github oauth)
 export class PassportService {
     public init() {
             passport.use(
