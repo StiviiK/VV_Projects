@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<MealyStateMachine>
+    <states>
+        <state name="S_i" isEnd="false" _referenceId="60e53b93"/>
+        <state name="S_0" isEnd="false" _referenceId="5e2de80c"/>
+        <state name="S_1" isEnd="false" _referenceId="1d44bcfa"/>
+        <state name="S_2" isEnd="false" _referenceId="266474c2"/>
+        <state name="S_3" isEnd="true" _referenceId="6f94fa3e"/>
+    </states>
+    <symbols>
+        <symbol name="0" _referenceId="5e481248"/>
+        <symbol name="1" _referenceId="66d3c617"/>
+        <symbol name="2" _referenceId="63947c6b"/>
+    </symbols>
+    <transitions>
+        <transition _refFrom="60e53b93" _refInput="5e481248" _refTo="5e2de80c" _refOutput="5e481248"/>
+        <transition _refFrom="60e53b93" _refInput="66d3c617" _refTo="1d44bcfa" _refOutput="5e481248"/>
+        <transition _refFrom="5e2de80c" _refInput="5e481248" _refTo="5e2de80c" _refOutput="5e481248"/>
+        <transition _refFrom="5e2de80c" _refInput="66d3c617" _refTo="1d44bcfa" _refOutput="66d3c617"/>
+        <transition _refFrom="1d44bcfa" _refInput="5e481248" _refTo="5e2de80c" _refOutput="66d3c617"/>
+        <transition _refFrom="1d44bcfa" _refInput="66d3c617" _refTo="1d44bcfa" _refOutput="5e481248"/>
+        <transition _refFrom="1d44bcfa" _refInput="63947c6b" _refTo="6f94fa3e" _refOutput="5e481248"/>
+    </transitions>
+</MealyStateMachine>

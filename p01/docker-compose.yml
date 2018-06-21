@@ -1,0 +1,35 @@
+version: "3"
+services:
+  api:
+    build:
+      context: .
+      dockerfile: ./build/Dockerfile
+    ports:
+      - 443:3443
+    depends_on:
+      - database
+    links:
+      - database
+    environment:
+      - MONGO_DB_URL=mongodb://database:27017/test
+  database:
+    image: mongo
+  manage:
+    image: mongo-express
+    ports:
+      - 8443:8081
+    depends_on:
+      - database
+    links:
+      - database:mongo
+    environment:
+      - ME_CONFIG_BASICAUTH_USERNAME=vv
+      - ME_CONFIG_BASICAUTH_PASSWORD=vv_p01
+      - ME_CONFIG_OPTIONS_EDITORTHEME=hopscotch
+      - ME_CONFIG_MONGODB_ENABLE_ADMIN=false
+      - ME_CONFIG_MONGODB_AUTH_DATABASE=test
+      - ME_CONFIG_SITE_SSL_ENABLED=true
+      - ME_CONFIG_SITE_SSL_CRT_PATH=/mnt/certificate/localhost.cert
+      - ME_CONFIG_SITE_SSL_KEY_PATH=/mnt/certificate/localhost.key
+    volumes:
+      - ./certificate/:/mnt/certificate/
