@@ -27,11 +27,8 @@ class InsuranceRoute implements IRoute {
         this.router.use(this.jwt.authHandler());
 
         // GET SECTION
-        // Get all insurance ids
-        // this.router.get("/", (req, res, next) => next(new InvalidRouteError("/customer")));
-
-        // Find by condition e.g. /find?firstname=Stefan&lastname=Kürzeder or /find?customerId=5624, ...
-        this.router.get("/find", async (req, res, next) => {
+        // Find by condition e.g. /?firstname=Stefan&lastname=Kürzeder or /find?customerId=5624, ...
+        this.router.get("/", async (req, res, next) => {
             const condition = {
                 ...(req.query.annualRate !== undefined ? { annualRate: req.query.annualRate } : { }),
                 ...(req.query.contractNumber !== undefined ? { contractNumber: req.query.contractNumber } : { }),
@@ -85,7 +82,7 @@ class InsuranceRoute implements IRoute {
 
         // POST SECTION
         // Creates a customer
-        this.router.post("/create", async (req, res, next) => {
+        this.router.post("/", async (req, res, next) => {
             const fields = {
                 ...(req.body.annualRate !== undefined ? { annualRate: req.body.annualRate } : { }),
                 ...(req.body.contractNumber !== undefined ? { contractNumber: req.body.contractNumber } : { }),

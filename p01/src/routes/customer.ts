@@ -31,11 +31,8 @@ class CustomerRoute implements IRoute {
         this.router.use(this.jwt.authHandler());
 
         // GET SECTION
-        // Get all customer ids
-        // this.router.get("/", (req, res, next) => next(new InvalidRouteError("/customer")));
-
-        // Find by condition e.g. /find?firstname=Stefan&lastname=Kürzeder or /find?customerId=5624, ...
-        this.router.get("/find", async (req, res, next) => {
+        // Find by condition e.g. /?firstname=Stefan&lastname=Kürzeder or /find?customerId=5624, ...
+        this.router.get("/", async (req, res, next) => {
             const condition = {
                 ...(req.query.firstname !== undefined ? { firstname: req.query.firstname } : { }),
                 ...(req.query.lastname !== undefined ? { lastname: req.query.lastname } : { }),
@@ -91,7 +88,7 @@ class CustomerRoute implements IRoute {
 
         // POST SECTION
         // Creates a customer
-        this.router.post("/create", async (req, res, next) => {
+        this.router.post("/", async (req, res, next) => {
             const fields = {
                 ...(req.body.addressRef ? { address: req.body.addressRef } : { }),
                 ...(req.body.birthday ? { birthday: req.body.birthday } : { }),
