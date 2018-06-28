@@ -48,7 +48,7 @@ describe("Main api tests", () => {
     describe("test get all customers", () => {
         it("should return no customers", (done) => {
             chai.request(server)
-                .get("/customer/find?token=" + token)
+                .get("/customer?token=" + token)
                 .end((req, res) => {
                     res.should.have.status(200);
                     res.body.status.should.be.true;
@@ -63,7 +63,7 @@ describe("Main api tests", () => {
     describe("test add customer and insurance", () => {
         it("should create an customer", (done) => {
             chai.request(server)
-                .post("/customer/create?token=" + token)
+                .post("/customer?token=" + token)
                 .set('content-type', 'application/x-www-form-urlencoded')
                 .send({
                     firstname: "Stefan",
@@ -85,7 +85,7 @@ describe("Main api tests", () => {
 
         it("should create an insurance", (done) => {
             chai.request(server)
-                .post("/insurance/create?token=" + token)
+                .post("/insurance?token=" + token)
                 .set('content-type', 'application/x-www-form-urlencoded')
                 .send({
                     annualRate: Math.floor(Math.random() * 10000) + 100,
