@@ -18,7 +18,7 @@ public class ActiveMQCommunicator<T extends Serializable> {
 
     public ActiveMQCommunicator(Class<T> type, String url, String queue) throws JMSException {
         ConnectionFactory factory = new ActiveMQConnectionFactory(url);
-        ((ActiveMQConnectionFactory) factory).setTrustAllPackages(true);
+        ((ActiveMQConnectionFactory) factory).setTrustedPackages(List.of("stivik.vv.p02"));
         connection = factory.createConnection();
         connection.start();
 
