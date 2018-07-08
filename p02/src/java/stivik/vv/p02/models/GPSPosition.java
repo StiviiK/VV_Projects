@@ -2,6 +2,7 @@ package stivik.vv.p02.models;
 
 import java.io.Serializable;
 import java.util.Random;
+import java.util.concurrent.Callable;
 
 public class GPSPosition implements Serializable {
     public double x;
@@ -17,6 +18,21 @@ public class GPSPosition implements Serializable {
     }
 
     public static GPSPosition getRandom() {
-        return new GPSPosition(random.nextDouble(), random.nextDouble(), random.nextDouble());
+        Callable<Double> randomDouble = () -> ( random.nextInt(50000) / 10d );
+
+        try {
+            return new GPSPosition(randomDouble.call(), randomDouble.call(), randomDouble.call());
+        } catch (Exception ignored) {}
+
+        return new GPSPosition(0d, 0d, 0d);
+    }
+
+    @Override
+    public String toString() {
+        return "GPSPosition { " +
+                "x=" + x +
+                ", y=" + y +
+                ", z=" + z +
+                " }";
     }
 }

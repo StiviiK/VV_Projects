@@ -1,4 +1,4 @@
-package stivik.vv.p02;
+package stivik.vv.p02.models;
 
 import stivik.vv.p02.models.GPSPosition;
 
@@ -31,5 +31,15 @@ public class TelematicMessage implements Serializable {
 
     public GPSPosition getPosition() {
         return Position;
+    }
+
+    @Override
+    public String toString() {
+        return "TelematicMessage { " +
+                "UnitId=" + UnitId +
+                ", Distance=" + Distance +
+                ", Time=" + Time +
+                ", Position=" + Position +
+                " }";
     }
 }
