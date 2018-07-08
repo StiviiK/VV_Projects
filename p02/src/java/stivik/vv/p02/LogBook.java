@@ -9,6 +9,7 @@ import javax.jms.JMSException;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -18,7 +19,7 @@ public class LogBook implements Runnable {
     private ActiveMQCommunicator communicator;
     private ActiveMQTarget<TelematicMessage> messageTopic;
 
-    private HashMap<Integer, List<TelematicMessage>> book;
+    private Map<Integer, List<TelematicMessage>> book;
 
     private boolean running = true;
 
