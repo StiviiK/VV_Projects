@@ -46,6 +46,10 @@ public class LogBook implements Runnable {
         }
     }
 
+    public void stop() {
+        running = false;
+    }
+
     public int getUnitDistance(int unitId) {
         int distance = 0;
         List<TelematicMessage> list = book.get(unitId);

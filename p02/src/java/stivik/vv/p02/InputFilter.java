@@ -40,6 +40,10 @@ public class InputFilter implements Runnable {
         }
     }
 
+    public void stop() {
+        running = false;
+    }
+
     private void processMessage(TelematicMessage message) throws JMSException {
         if(message instanceof AlarmMessage) {
             alarmQueue.send(message);

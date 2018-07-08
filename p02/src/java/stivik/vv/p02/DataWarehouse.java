@@ -48,9 +48,15 @@ public class DataWarehouse implements Runnable {
 
                 LOGGER.log(Level.INFO, String.format("Driven distance of hour %d of unit %d: %d", hour, message.getUnitId(), array[hour]));
             }
+
+            communicator.close();
         } catch (JMSException e) {
             e.printStackTrace();
         }
+    }
+
+    public void stop() {
+        running = false;
     }
 
     public static void main(String[] args) {

@@ -28,32 +28,41 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="LogBook.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/java/stivik/vv/p02/LogBook.java">
+      <file leaf-file-name="TelematicsUnit.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/java/stivik/vv/p02/TelematicsUnit.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="300">
-              <caret line="31" lean-forward="true" selection-start-line="31" selection-end-line="31" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="DataWarehouse.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/java/stivik/vv/p02/DataWarehouse.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="510">
-              <caret line="48" column="47" selection-start-line="48" selection-start-column="47" selection-end-line="48" selection-end-column="47" />
+            <state relative-caret-position="388">
+              <caret line="59" lean-forward="true" selection-start-line="59" selection-end-line="59" />
               <folding>
-                <element signature="imports" expanded="true" />
+                <element signature="e#1844#1845#0" expanded="true" />
+                <element signature="e#1875#1876#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="TelematicsUnit.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/java/stivik/vv/p02/TelematicsUnit.java">
+      <file leaf-file-name="InputFilter.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/java/stivik/vv/p02/InputFilter.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-242">
-              <caret line="14" selection-start-line="14" selection-end-line="14" selection-end-column="90" />
+            <state relative-caret-position="243">
+              <caret line="28" lean-forward="true" selection-start-line="28" selection-end-line="28" />
+              <folding>
+                <element signature="e#1533#1534#0" expanded="true" />
+                <element signature="e#1564#1565#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="LogBook.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/java/stivik/vv/p02/LogBook.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="395">
+              <caret line="47" lean-forward="true" selection-start-line="47" selection-end-line="47" />
+              <folding>
+                <element signature="e#1569#1570#0" expanded="true" />
+                <element signature="e#1600#1601#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -102,10 +111,10 @@
         <option value="$PROJECT_DIR$/src/java/stivik/vv/p02/models/GPSPosition.java" />
         <option value="$PROJECT_DIR$/src/java/stivik/vv/p02/models/AlarmMessage.java" />
         <option value="$PROJECT_DIR$/src/java/stivik/vv/p02/communitcator/ActiveMQCommunicator.java" />
-        <option value="$PROJECT_DIR$/src/java/stivik/vv/p02/TelematicsUnit.java" />
-        <option value="$PROJECT_DIR$/src/java/stivik/vv/p02/InputFilter.java" />
-        <option value="$PROJECT_DIR$/src/java/stivik/vv/p02/LogBook.java" />
         <option value="$PROJECT_DIR$/src/java/stivik/vv/p02/DataWarehouse.java" />
+        <option value="$PROJECT_DIR$/src/java/stivik/vv/p02/LogBook.java" />
+        <option value="$PROJECT_DIR$/src/java/stivik/vv/p02/InputFilter.java" />
+        <option value="$PROJECT_DIR$/src/java/stivik/vv/p02/TelematicsUnit.java" />
       </list>
     </option>
   </component>
@@ -341,9 +350,9 @@
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.LogBook" />
         <item itemvalue="Application.InputFilter" />
         <item itemvalue="Application.DataWarehouse" />
-        <item itemvalue="Application.LogBook" />
         <item itemvalue="Application.MessageSender" />
         <item itemvalue="Application.MessageReceiver" />
       </list>
@@ -368,12 +377,12 @@
       <updated>1530961123851</updated>
       <workItem from="1530961125532" duration="866000" />
       <workItem from="1530962049163" duration="238000" />
-      <workItem from="1530962713273" duration="13684000" />
+      <workItem from="1530962713273" duration="14056000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="14788000" />
+    <option name="totallyTimeSpent" value="15160000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1680" height="1050" extended-state="0" />
@@ -389,12 +398,12 @@
       <window_info anchor="right" id="Maven Projects" order="3" />
       <window_info anchor="bottom" id="Database Changes" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="7" show_stripe_button="false" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.252505" />
+      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.252505" />
       <window_info anchor="bottom" id="Spring" order="7" />
       <window_info anchor="bottom" id="Terminal" order="7" />
       <window_info id="Capture Tool" order="2" />
       <window_info id="Designer" order="2" />
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.25" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.25" />
       <window_info anchor="right" id="Database" order="3" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32930845" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
@@ -548,10 +557,37 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/java/stivik/vv/p02/DataWarehouse.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="537">
+          <caret line="57" selection-start-line="57" selection-end-line="60" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#1986#1987#0" expanded="true" />
+            <element signature="e#2013#2014#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/java/stivik/vv/p02/InputFilter.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="422">
-          <caret line="40" column="4" lean-forward="true" selection-start-line="40" selection-start-column="4" selection-end-line="40" selection-end-column="5" />
+        <state relative-caret-position="243">
+          <caret line="28" lean-forward="true" selection-start-line="28" selection-end-line="28" />
+          <folding>
+            <element signature="e#1533#1534#0" expanded="true" />
+            <element signature="e#1564#1565#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/java/stivik/vv/p02/LogBook.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="395">
+          <caret line="47" lean-forward="true" selection-start-line="47" selection-end-line="47" />
+          <folding>
+            <element signature="e#1569#1570#0" expanded="true" />
+            <element signature="e#1600#1601#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -562,26 +598,13 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/java/stivik/vv/p02/LogBook.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="300">
-          <caret line="31" lean-forward="true" selection-start-line="31" selection-end-line="31" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/java/stivik/vv/p02/TelematicsUnit.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-242">
-          <caret line="14" selection-start-line="14" selection-end-line="14" selection-end-column="90" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/java/stivik/vv/p02/DataWarehouse.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="510">
-          <caret line="48" column="47" selection-start-line="48" selection-start-column="47" selection-end-line="48" selection-end-column="47" />
+        <state relative-caret-position="388">
+          <caret line="59" lean-forward="true" selection-start-line="59" selection-end-line="59" />
           <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="e#1844#1845#0" expanded="true" />
+            <element signature="e#1875#1876#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -605,7 +628,7 @@
       </state>
       <state key="FacetStructureConfigurable.UI">
         <settings>
-          <last-edited />
+          <last-edited>No facets are configured</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>
@@ -665,7 +688,7 @@
       </state>
       <state key="ProjectLibrariesConfigurable.UI">
         <settings>
-          <last-edited />
+          <last-edited>Apache ActiveMQ</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>

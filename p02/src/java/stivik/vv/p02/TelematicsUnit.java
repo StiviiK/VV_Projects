@@ -54,10 +54,15 @@ public class TelematicsUnit implements Runnable {
         }
     }
 
+    public void stop() {
+        running = false;
+    }
+
     public static void main(String[] args) {
         try {
             TelematicsUnit units[] = {
-                new TelematicsUnit("fahrdaten", 500)
+                new TelematicsUnit("fahrdaten", 500),
+                new TelematicsUnit("fahrdaten", 500),
             };
 
 
